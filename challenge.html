@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Challenge</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container">
+    <p><a href="index.html">Back</a></p>
+
+      <h1 id="title">Challenge</h1>
+
+      <h2>Challenge Description</h2>
+      <p id="description">
+        This is a dummy cybersecurity challenge. Your mission is to investigate the information
+        provided and find the hidden flag.
+      </p>
+        <strong>Mission:</strong>
+        Find the flag and submit it below.
+
+      <label for="flag">Flag:</label>
+      <input id="flag" type="text" placeholder="Enter the flag you found">
+      <button type="button" onclick="submitFlag()">Submit Flag</button>
+
+      <p id="result" class="result"></p>
+    </section>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id") || "1";
+
+    document.getElementById("title").textContent = "Challenge " + id;
+    document.title = "Challenge " + id + " | CODE4FUN Cybersecurity";
+
+    function submitFlag() {
+      const result = document.getElementById("result");
+      result.textContent = "Flag submitted! (this is just a quick demo so it doesn't actually check the answers)";
+    }
+  </script>
+</body>
+</html>

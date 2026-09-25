@@ -1,0 +1,58 @@
+.challenge-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.challenge-list a {
+  display: block;
+  padding: 14px 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  color: #222;
+  text-decoration: none;
+  background: #fafafa;
+}
+
+.challenge-list a:hover {
+  background: #eee;
+}
+
+.challenge h2 {
+  margin-top: 28px;
+}
+
+.mission {
+  margin: 20px 0;
+  padding: 15px;
+  background: #f0f0f0;
+  border-left: 4px solid #555;
+}
+
+input {
+  display: block;
+  width: min(500px, 100%);
+  padding: 12px;
+  margin: 8px 0 12px;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+button {
+  padding: 11px 18px;
+  border: 1px solid #777;
+  border-radius: 5px;
+  background: #222;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #444;
+}
+
+.result {
+  margin-top: 18px;
+  font-weight: bold;
+}
