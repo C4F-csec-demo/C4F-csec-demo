@@ -1,19 +1,20 @@
 # CODE4FUN Cybersecurity Demo
 
-A very small proof-of-concept for a browser-based cybersecurity lesson platform.
+A deliberately simple proof-of-concept for a browser-based cybersecurity lesson platform.
 
-## Files
+It contains two challenges:
 
-- `index.html` - homepage and challenge list
-- `challenge.html` - reusable dummy challenge page
-- `style.css` - basic styling
+1. **Love Letter** - a simplified version of the PECAN+ challenge, using ASCII and multiplication by 3. The intended answer is `code4fun`.
+2. **Inspect HTML** - students inspect the HTML source to find the hidden flag. The intended answer is `code4fun`.
+
+The flag checker is case-insensitive.
 
 ## GitHub Pages
 
 1. Create a new GitHub repository.
-2. Upload these three files.
-3. Go to **Settings → Pages**.
+2. Upload `index.html`, `challenge.html`, and `style.css`.
+3. Go to **Settings -> Pages**.
 4. Select **Deploy from a branch** and choose the `main` branch.
-5. GitHub will provide the published website URL.
+5. Open the GitHub Pages URL.
 
-This prototype does not actually validate flags or save progress.
+This is only a proof of concept. Answers are stored in the client-side JavaScript, so it is not intended to provide real security or secure flag validation.

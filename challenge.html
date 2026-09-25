@@ -1,41 +1,75 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Challenge</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="container">
-    <p><a href="index.html">Back</a></p>
+  <main>
+    <p><a href="index.html">← Back to challenges</a></p>
 
-      <h1 id="title">Challenge</h1>
+    <h1 id="title">Challenge</h1>
 
-      <h2>Challenge Description</h2>
-      <p id="description">
-        This is a dummy cybersecurity challenge. Your mission is to investigate the information
-        provided and find the hidden flag.
-      </p>
-        <strong>Mission:</strong>
-        Find the flag and submit it below.
+    <div id="challenge-content"></div>
 
-      <label for="flag">Flag:</label>
-      <input id="flag" type="text" placeholder="Enter the flag you found">
-      <button type="button" onclick="submitFlag()">Submit Flag</button>
+    <hr>
 
-      <p id="result" class="result"></p>
-    </section>
+    <label for="flag">Enter the flag you found:</label><br>
+    <input id="flag" type="text">
+    <button onclick="checkFlag()">Submit</button>
+
+    <p id="result"></p>
   </main>
 
   <script>
+    const challenges = {
+      "1": {
+        title: "Challenge 1 - Love Letter",
+        description: `
+          <p>A mysterious message has been encrypted using a simple Python program.</p>
+          <p>The program takes each character's ASCII value and multiplies it by 3.</p>
+          <p>Can you reverse the process and find the hidden message?</p>
+
+          <p><strong>Encrypted message:</strong></p>
+          <pre>297, 333, 303, 96, 306, 333, 324, 345, 336, 318, 96, 306, 291, 324, 312</pre>
+
+          <p><strong>Hint:</strong> You already know what ASCII values are. Work backwards from the encryption.</p>
+        `,
+        answer: "code4fun"
+      },
+
+      "2": {
+        title: "Challenge 2 - Inspect HTML",
+        description: `
+          <p>This webpage looks completely normal...</p>
+          <p>But there might be something hidden in the HTML source code.</p>
+          <p>Can you inspect this page and find the secret flag?</p>
+          <!-- FLAG: code4fun -->
+          <p><strong>Hint:</strong> Try viewing the page source.</p>
+        `,
+        answer: "code4fun"
+      }
+    };
+
     const params = new URLSearchParams(window.location.search);
     const id = params.get("id") || "1";
+    const challenge = challenges[id] || challenges["1"];
 
-    document.getElementById("title").textContent = "Challenge " + id;
-    document.title = "Challenge " + id + " | CODE4FUN Cybersecurity";
+    document.title = challenge.title + " | CODE4FUN Cybersecurity";
+    document.getElementById("title").textContent = challenge.title;
+    document.getElementById("challenge-content").innerHTML = challenge.description;
 
-    function submitFlag() {
+    function checkFlag() {
+      const submitted = document.getElementById("flag").value.trim().toLowerCase();
       const result = document.getElementById("result");
-      result.textContent = "Flag submitted! (this is just a quick demo so it doesn't actually check the answers)";
+
+      if (submitted === challenge.answer.toLowerCase()) {
+        result.textContent = "Correct! You found the flag.";
+      } else {
+        result.textContent = "Not quite. Try again.";
+      }
     }
   </script>
 </body>
