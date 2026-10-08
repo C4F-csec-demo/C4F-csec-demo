@@ -1,25 +1,31 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Code4Fun Cybersecurity</title><link rel="stylesheet" href="style.css"></head><body>
-<header><img src="https://www.code4fun.com.au/app/uploads/2021/08/logo.svg" alt="Code4Fun"><span>Cybersecurity</span><a href="teacher.html">Teacher login</a></header>
-<main>
-<h1>Ready to hack?</h1><p>Type the class code your teacher gave you.</p>
-<form id="join" class="card narrow">
-<label>Class code<input id="code" class="join" maxlength="6" autocomplete="off" required></label>
-<div class="grid"><label>First name<input id="first" maxlength="40" required></label><label>Last name<input id="last" maxlength="40" required></label></div>
-<button>Join class</button><p id="m" class="msg"></p>
-</form></main>
-<script type="module">
-import {sb,$,say} from './app.js';
-let {data:{session}} = await sb.auth.getSession();
-if (session) { const {data} = await sb.rpc('my_info'); if (data?.length) location.href = 'student.html'; }
-$('#join').onsubmit = async e => {
-  e.preventDefault(); const m = $('#m');
-  ({data:{session}} = await sb.auth.getSession());
-  if (!session || !session.user.is_anonymous) {
-    await sb.auth.signOut();
-    const r = await sb.auth.signInAnonymously();
-    if (r.error) return say(m, 'Could not connect. Ask your teacher for help.', 1);
-  }
-  const {error} = await sb.rpc('join_class', {c: $('#code').value, f: $('#first').value, l: $('#last').value});
-  error ? say(m, error.message, 1) : location.href = 'student.html';
-};
-</script></body></html>
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Code4Fun Cybersecurity</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="c4f-logo.png">
+</head>
+
+<body>
+    <header><img src="https://www.code4fun.com.au/app/uploads/2021/08/logo.svg" alt="Code4Fun"><span>Cybersecurity</span><a href="teacher.html">Teacher login</a></header>
+    <main>
+        <h1>Ready to hack?</h1>
+        <p>Type the class code your teacher gave you.</p>
+        <form id="join" class="card narrow">
+            <label>Class code<input id="code" class="join" maxlength="6" autocomplete="off" required></label>
+            <div class="grid"><label>First name<input id="first" maxlength="40" required></label><label>Last name<input id="last" maxlength="40" required></label></div>
+            <button>Join class</button>
+            <p id="m" class="msg"></p>
+        </form>
+    </main>
+    <script type="module">
+        import {sb,$,say} from './app.js'; let {data:{session}} = await sb.auth.getSession(); if (session) { const {data} = await sb.rpc('my_info'); if (data?.length) location.href = 'student.html'; } $('#join').onsubmit = async e => { e.preventDefault(); const
+        m = $('#m'); ({data:{session}} = await sb.auth.getSession()); if (!session || !session.user.is_anonymous) { await sb.auth.signOut(); const r = await sb.auth.signInAnonymously(); if (r.error) return say(m, 'Could not connect. Ask your teacher for
+        help.', 1); } const {error} = await sb.rpc('join_class', {c: $('#code').value, f: $('#first').value, l: $('#last').value}); error ? say(m, error.message, 1) : location.href = 'student.html'; };
+    </script>
+</body>
+
+</html>
