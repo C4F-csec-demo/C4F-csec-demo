@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Caesar</title>
+    <title>Love Letter</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="icon" type="image/x-icon" href="../c4f-logo.png">
 </head>
@@ -14,14 +14,21 @@
         <a href="../student.html"><img src="https://www.code4fun.com.au/app/uploads/2021/08/logo.svg" alt="Code4Fun"></a><span>Cybersecurity</span></header>
     <main>
         <section class="card">
-            <h1>Welcome to my website!</h1>
-            <p>This page looks completely normal. Nothing to see here.</p>
-            <p class="hint">Mission: someone hid a secret word inside this page. Find it.</p>
+            <h1>Crack the Caesar Cipher</h1>
+            <p>You have intercepted a secret message. It was scrambled with a Caesar cipher, which shifts every letter along the alphabet by the same number of places.</p>
+            <p>The message says:</p>
+            <pre>YMJ XJHWJY BTWI NX MFHPJW</pre>
+            <p>You do not know the key. Can you find it?</p>
+            <p class="hint">Hint: try shifting the shortest word backwards by 1, then 2, then 3, until a real word appears. Keep a list of the shifts you have tried.
+            </p>
+            <details>
+                <summary>Stuck? Read this</summary>
+                <p>To decode, move each letter <b>backwards</b> along the alphabet. If you go past A, wrap around to Z.</p>
+            </details>
         </section>
-        <!-- Secret word: code4fun -->
         <form id="flag" class="card narrow"></form>
     </main>
-    <script type="module">import {flagForm} from '../app.js'; flagForm('inspect-html');</script>
+    <script type="module">import {flagForm} from '../app.js'; flagForm('love-letter');</script>
 </body>
 
 </html>
