@@ -29,11 +29,8 @@ function login() {
   <div class="row"><button>Log in</button><button type="button" id="su" class="alt">Create account</button></div><p id="m" class="msg"></p></form></section>`;
     const f = $('#lf'),
         m = $('#m');
-    f.onsubmit = async e => {
-        e.preventDefault();
-        const { error } = await sb.auth.signInWithPassword({ email: f.e.value, password: f.p.value });
-        error ? say(m, error.message, 1) : start();
-    };
+    f.onsubmit = async e => { e.preventDefault(); const { error } = await sb.auth.signInWithPassword({ email: f.e.value, password: f.p.value });
+        error ? say(m, error.message, 1) : start(); };
     $('#su').onclick = async() => {
         if (!f.reportValidity() || !f.n.value.trim()) return say(m, 'Enter your name to create an account.', 1);
         const { data, error } = await sb.auth.signUp({ email: f.e.value, password: f.p.value, options: { data: { name: f.n.value.trim() } } });
