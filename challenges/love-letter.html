@@ -1,0 +1,16 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Love Letter</title><link rel="stylesheet" href="../style.css"></head><body>
+<header><a href="../student.html"><img src="https://www.code4fun.com.au/app/uploads/2021/08/logo.svg" alt="Code4Fun"></a><span>Cybersecurity</span></header>
+<main>
+<section class="card"><h1>The secret message</h1>
+<p>A student scrambled a secret word using this Python code:</p>
+<pre>message = "????"
+secret = []
+for letter in message:
+    secret.append(ord(letter) * 3)
+print(secret)</pre>
+<p>The program printed:</p>
+<pre>[297, 333, 300, 303, 156, 306, 351, 330]</pre>
+<p class="hint">Hint: <code>ord</code> turns a letter into its ASCII number. Can you work backwards to find the message?</p></section>
+<form id="flag" class="card narrow"></form>
+</main>
+<script type="module">import {flagForm} from '../app.js'; flagForm('love-letter');</script></body></html>
