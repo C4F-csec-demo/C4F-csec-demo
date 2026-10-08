@@ -29,8 +29,11 @@ function login() {
   <div class="row"><button>Log in</button><button type="button" id="su" class="alt">Create account</button></div><p id="m" class="msg"></p></form></section>`;
     const f = $('#lf'),
         m = $('#m');
-    f.onsubmit = async e => { e.preventDefault(); const { error } = await sb.auth.signInWithPassword({ email: f.e.value, password: f.p.value });
-        error ? say(m, error.message, 1) : start(); };
+    f.onsubmit = async e => {
+        e.preventDefault();
+        const { error } = await sb.auth.signInWithPassword({ email: f.e.value, password: f.p.value });
+        error ? say(m, error.message, 1) : start();
+    };
     $('#su').onclick = async() => {
         if (!f.reportValidity() || !f.n.value.trim()) return say(m, 'Enter your name to create an account.', 1);
         const { data, error } = await sb.auth.signUp({ email: f.e.value, password: f.p.value, options: { data: { name: f.n.value.trim() } } });
@@ -52,8 +55,8 @@ async function render() {
 
 const classes = (cl, ls, sub) => `<section class="card"><h2>New class</h2><form data-f="class" class="row"><input name="n" placeholder="e.g. PLC Year 7 Tuesday" required><button>Create class</button></form></section>` +
     cl.map(c => `<section class="card"><h2>${esc(c.name)}</h2><p>Join code <b class="code">${esc(c.code)}</b></p>
-  <h3>Students (${c.students.length})</h3>${c.students.length ? `<table><tr><th>Name</th><th>Challenges solved</th><th></th></tr>${c.students.map(s => `<tr><td>${esc(s.first)} ${esc(s.last)}${s.auth_id ? '' : ' <span class="hint">(reset)</span>'}</td><td>${sub.filter(x => x.student_id == s.id).length}</td>
-  <td><button class="alt small" data-act="rename" data-id="${s.id}" data-n="${esc(s.first + ' ' + s.last)}">Rename</button> <button class="alt small" data-act="release" data-id="${s.id}">Reset</button> <button class="alt small" data-act="remove" data-id="${s.id}">Remove</button></td></tr>`).join('')}</table>` : '<p class="hint">No students yet. Share the join code.</p>'}
+  <h3>Students (${c.students.length})</h3>${c.students.length ? `<table><tr><th>Name</th><th>Challenges solved</th><th></th></tr>${c.students.map(s => `<tr><td>${esc(s.first)} ${esc(s.last)}</td><td>${new Set(sub.filter(x => x.student_id == s.id).map(x => x.challenge)).size}</td>
+  <td><button class="alt small" data-act="rename" data-id="${s.id}" data-n="${esc(s.first + ' ' + s.last)}">Rename</button> <button class="alt small" data-act="pw" data-id="${s.id}" data-n="${esc(s.first + ' ' + s.last)}">New password</button> <button class="alt small" data-act="remove" data-id="${s.id}">Remove</button></td></tr>`).join('')}</table>` : '<p class="hint">No students yet. Share the join code.</p>'}
   <h3>Assigned lessons</h3>${c.assignments.length ? `<table>${c.assignments.sort((a, b) => a.day < b.day ? 1 : -1).map(a => `<tr><td>${esc(a.day)}</td><td>${esc(a.lessons.title)}</td><td><button class="alt small" data-act="unassign" data-id="${a.id}">Unassign</button></td></tr>`).join('')}</table>` : '<p class="hint">Nothing assigned yet.</p>'}
   <form data-f="assign" data-c="${c.id}" class="row"><select name="l" aria-label="Lesson">${ls.map(l => `<option value="${l.id}">${esc(l.level)}: ${esc(l.title)}</option>`).join('')}</select><input type="date" name="d" value="${today()}" required aria-label="Day"><button>Assign</button></form></section>`).join('');
 
@@ -69,8 +72,8 @@ app.onclick = async e => {
   const b = e.target.closest('button'); if (!b) return; const a = b.dataset; let r;
   if (a.v) { view = a.v; return render(); }
   if (a.act == 'rename') { const n = prompt('New name (first last)', a.n); if (!n) return; const [f, ...l] = n.trim().split(/\s+/); r = await sb.from('students').update({ first: f, last: l.join(' ') }).eq('id', a.id); }
-  else if (a.act == 'release') { if (!confirm('Let this student join again from a new device?')) return; r = await sb.from('students').update({ auth_id: null }).eq('id', a.id); }
-  else if (a.act == 'remove') { if (!confirm('Remove this student?')) return; r = await sb.from('students').delete().eq('id', a.id); }
+  else if (a.act == 'pw') { const pw = prompt('Type a temporary password for ' + a.n + ' (6+ characters)'); if (!pw) return; r = await sb.rpc('set_student_password', { sid: a.id, pw: pw }); if (!r.error) alert('Done. Tell ' + a.n + ' to log in with that password.'); }
+  else if (a.act == 'remove') { if (!confirm('Remove this student and their login?')) return; r = await sb.rpc('remove_student', { sid: a.id }); }
   else if (a.act == 'unassign') r = await sb.from('assignments').delete().eq('id', a.id);
   else if (a.act == 'dellesson') { if (!confirm('Delete this lesson for all teachers?')) return; r = await sb.from('lessons').delete().eq('id', a.id); }
   else return;

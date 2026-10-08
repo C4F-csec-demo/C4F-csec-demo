@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>My lessons | Code4Fun Cybersecurity</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/x-icon" href="c4f-logo.png">
 </head>
 
 <body>
@@ -16,17 +15,7 @@
         <p id="cls" class="hint"></p>
         <div id="list"></div>
     </main>
-    <script type="module">
-        import {sb,$,esc} from './app.js'; const {data:info} = await sb.rpc('my_info'); if (!info?.length) location.href = 'index.html'; $('#hi').textContent = `Hi ${info[0].first}!`; $('#cls').textContent = info[0].class_name; const {data:rows} = await sb.rpc('my_assignments');
-        $('#list').innerHTML = rows?.length ? rows.map(r => `
-        <section class="card">
-            <h2>${esc(r.title)}</h2>
-            <p class="hint">${esc(r.day)}</p>
-            ${r.challenge ? `<a href="challenges/${esc(r.challenge)}.html"><button>Open challenge</button></a> ${r.solved ? '<span class="badge">Solved</span>' : ''}` : ''}</section>`).join('') : '
-        <section class="card">
-            <p>No lessons yet. Your teacher will unlock them in class.</p>
-        </section>'; $('#out').onclick = async () => { await sb.auth.signOut(); location.href = 'index.html'; };
-    </script>
+    <script type="module" src="student.js"></script>
 </body>
 
 </html>
