@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Layers</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" type="image/x-icon" href="../c4f-logo.png">
+</head>
+
+<body>
+    <header>
+        <a href="../student.html"><img src="https://www.code4fun.com.au/app/uploads/2021/08/logo.svg" alt="Code4Fun"></a><span>Cybersecurity</span></header>
+    <main>
+        <section class="card">
+            <h1>Layers</h1>
+            <p>You have found a message that has been disguised twice. To read it, you need to "peel off both layers"
+            </p>
+            <p>The message says:</p>
+            <pre>Zmxza2h1</pre>
+            <ol>
+                <li>The first layer is an <b>encoding</b>. Use a Base64 decoder to see what is underneath.</li>
+                <li>What you find will look like nonsense. It is a <b>Caesar cipher</b>, and the key is smaller than 10.</li>
+                <li>Crack the Caesar cipher, then type the secret word below.</li>
+            </ol>
+            <p class="hint">Hint: if the decoder gives you something that is not a real word, shift it backwards one letter at a time until it makes sense.
+            </p>
+            <details>
+                <summary>Stuck? Read this</summary>
+                <p>The first layer needs no key, so a decoder can open it straight away. The second layer is the one you have to solve yourself.
+                </p>
+            </details>
+        </section>
+        <form id="flag" class="card narrow"></form>
+    </main>
+    <script type="module">import {flagForm} from '../app.js'; flagForm('love-letter');</script>
+</body>
+
+</html>
