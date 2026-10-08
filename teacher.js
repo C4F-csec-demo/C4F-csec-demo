@@ -12,7 +12,7 @@ async function start() {
     $('#out').hidden = false;
     let { data: t } = await sb.from('teachers').select('*').maybeSingle();
     if (!t) {
-        const { error } = await sb.from('teachers').insert({ id: uid, name: session.user.user_metadata ? .name || session.user.email });
+        const { error } = await sb.from('teachers').insert({ id: uid, name: (session.user.user_metadata || {}).name || session.user.email });
         if (error) return app.innerHTML = `<section class="card"><p class="bad">${esc(error.message)}</p></section>`;
         t = { approved: false };
     }
