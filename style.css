@@ -234,9 +234,6 @@ main.wide {
     max-width: 1200px
 }
 
-.card {
-    overflow-x: auto
-}
 
 header a {
     font-weight: 700;
@@ -1320,6 +1317,10 @@ body.in-live-ctf main {
 /* Phones */
 
 @media (max-width: 600px) {
+    .card table {
+        display: block;
+        overflow-x: auto
+    }
     header {
         flex-wrap: wrap;
         padding: 10px 16px
