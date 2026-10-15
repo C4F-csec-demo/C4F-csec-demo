@@ -6,16 +6,22 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>My lessons | Code4Fun Cybersecurity</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="c4f-logo.png">
 </head>
 
 <body>
-    <header><img src="https://www.code4fun.com.au/app/uploads/2021/08/logo.svg" alt="Code4Fun"><span>Cybersecurity</span><button id="out" class="alt small">Sign out</button></header>
+    <header>
+        <img src="https://www.code4fun.com.au/app/uploads/2021/08/logo.svg" alt="Code4Fun"><span>Cybersecurity</span>
+        <a href="help-student.html">Help</a>
+        <button id="out" class="alt small">Sign out</button>
+    </header>
     <main>
         <h1 id="hi">My lessons</h1>
         <p id="cls" class="hint"></p>
+        <div id="ctf-banner"></div>
         <div id="list"></div>
     </main>
-    <script type="module" src="student.js"></script>
+    <script type="module" src="js/student.js"></script>
 </body>
 
 </html>

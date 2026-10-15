@@ -1,95 +1,392 @@
-import { sb, $, esc, say } from './app.js';
+// The teacher's big screen for a Live CTF (ctf-host.html?id=5)
+//
+// Every 2 seconds it asks the database for the latest state of the game
+// (ctf_host_state) and redraws the screen if anything changed
+// The screen looks different for each stage of the game:
+//   lobby    - students joining, teams being sorted, START button
+//   running  - timer, a box per challenge (fastest solve), live leaderboard
+//   finished - final results
+
+import { sb, callDb, must } from './supabase.js';
+import { $, esc, tip, ordinal, formatClock, teamTag, textColourFor, onAction, onChange, onForm, repeat, runSafely } from './ui.js';
+import { syncClock, startClocks, updateClocks } from './ctf-clock.js';
+
+const ctfId = Number(new URLSearchParams(location.search).get('id'));
 const app = $('#app');
-let view = 'classes',
-    uid;
-const today = () => new Date().toLocaleDateString('en-CA', { timeZone: 'Australia/Sydney' });
-const link = u => /^(https?:\/\/|challenges\/)/.test(u || '') ? `<a href="${esc(u)}" target="_blank" rel="noopener">Open</a>` : '-';
+const modal = $('#modal');
 
-async function start() {
-    const { data: { session } } = await sb.auth.getSession();
-    if (!session || session.user.is_anonymous) return login();
-    uid = session.user.id;
-    $('#out').hidden = false;
-    let { data: t } = await sb.from('teachers').select('*').maybeSingle();
-    if (!t) {
-        const { error } = await sb.from('teachers').insert({ id: uid, name: (session.user.user_metadata || {}).name || session.user.email });
-        if (error) return app.innerHTML = `<section class="card"><p class="bad">${esc(error.message)}</p></section>`;
-        t = { approved: false };
+let state = null;          // the latest data from the database
+let lastDrawn = '';        // what we last drew, so we only redraw when something changes
+let editingTeamId = null;  // the team being edited in the pop-up, if any
+
+// Small pieces
+
+function settingsSummary(game) {
+    const parts = [];
+    parts.push(game.pacing === 'self' ? 'Self-paced' : 'Teacher-paced');
+    parts.push(game.time_limit ? game.time_limit + ' minute time limit' : 'No time limit');
+    if (game.use_teams) {
+        let teams = 'Teams';
+        if (game.team_size) {
+            teams += ' of up to ' + game.team_size;
+        }
+        teams += game.team_sorting === 'pick' ? ', students pick' : ', random';
+        teams += game.students_name_teams ? ', students name their team' : '';
+        parts.push(teams);
+    } else {
+        parts.push('Everyone plays on their own');
     }
-    if (!t.approved) return app.innerHTML = '<section class="card narrow"><h2>Waiting for approval</h2><p>Your account is set up. Ask Ben or Grig to approve it, then refresh this page.</p></section>';
-    render();
+    return parts.join(' &middot; ');
 }
 
-function login() {
-    $('#out').hidden = true;
-    app.innerHTML = `<section class="card narrow"><h2>Teacher login</h2><form id="lf">
-  <label>Email<input name="e" type="email" required></label>
-  <label>Password (8+ characters)<input name="p" type="password" minlength="8" required></label>
-  <label>Your name (new accounts only)<input name="n"></label>
-  <div class="row"><button>Log in</button><button type="button" id="su" class="alt">Create account</button></div><p id="m" class="msg"></p></form></section>`;
-    const f = $('#lf'),
-        m = $('#m');
-    f.onsubmit = async e => {
-        e.preventDefault();
-        const { error } = await sb.auth.signInWithPassword({ email: f.e.value, password: f.p.value });
-        error ? say(m, error.message, 1) : start();
-    };
-    $('#su').onclick = async() => {
-        if (!f.reportValidity() || !f.n.value.trim()) return say(m, 'Enter your name to create an account.', 1);
-        const { data, error } = await sb.auth.signUp({ email: f.e.value, password: f.p.value, options: { data: { name: f.n.value.trim() } } });
-        if (error) return say(m, error.message, 1);
-        data.session ? start() : say(m, 'Check your email to confirm your account, then log in.');
-    };
+function medal(place) {
+    const medals = { 1: '&#129351;', 2: '&#129352;', 3: '&#129353;' };
+    return medals[place] || ordinal(place);
 }
 
-async function render() {
-    const [{ data: cl }, { data: ls }, { data: sub }, { data: fl }] = await Promise.all([
-        sb.from('classes').select('*, students(*), assignments(*, lessons(num,title))').order('created_at'),
-        sb.from('lessons').select('*').order('level').order('num'),
-        sb.from('submissions').select('student_id,challenge').eq('correct', true),
-        sb.from('flags').select('*')
-    ]);
-    const tab = (v, t) => `<button data-v="${v}" class="${view == v ? '' : 'alt'}">${t}</button>`;
-    app.innerHTML = `<nav>${tab('classes', 'Classes')}${tab('curriculum', 'Curriculum')}</nav>` + (view == 'classes' ? classes(cl, ls, sub) : curriculum(ls, fl || []));
+// The menu for moving a player to another team
+function moveMenu(player, teams, currentTeamId) {
+    const options = teams.map(function (team) {
+        return '<option value="' + team.id + '"' + (team.id === currentTeamId ? ' selected' : '') + '>' + esc(team.name) + '</option>';
+    }).join('');
+    return '<select class="mini" data-change="move-player" data-player="' + player.id + '" aria-label="Move ' + esc(player.name) + '">' +
+        '<option value=""' + (currentTeamId ? '' : ' selected') + '>No team</option>' + options + '</select>';
 }
 
-const classes = (cl, ls, sub) => `<section class="card"><h2>New class</h2><form data-f="class" class="row"><input name="n" placeholder="e.g. PLC Year 7 Tuesday" required><button>Create class</button></form></section>` +
-    cl.map(c => `<section class="card"><h2>${esc(c.name)}</h2><p>Join code <b class="code">${esc(c.code)}</b></p>
-  <h3>Students (${c.students.length})</h3>${c.students.length ? `<table><tr><th>Name</th><th>Challenges solved</th><th></th></tr>${c.students.map(s => `<tr><td>${esc(s.first)} ${esc(s.last)}</td><td>${new Set(sub.filter(x => x.student_id == s.id).map(x => x.challenge)).size}</td>
-  <td><button class="alt small" data-act="rename" data-id="${s.id}" data-n="${esc(s.first + ' ' + s.last)}">Rename</button> <button class="alt small" data-act="pw" data-id="${s.id}" data-n="${esc(s.first + ' ' + s.last)}">New password</button> <button class="alt small" data-act="remove" data-id="${s.id}">Remove</button></td></tr>`).join('')}</table>` : '<p class="hint">No students yet. Share the join code.</p>'}
-  <h3>Assigned lessons</h3>${c.assignments.length ? `<table>${c.assignments.sort((a, b) => a.day < b.day ? 1 : -1).map(a => `<tr><td>${esc(a.day)}</td><td>${esc(a.lessons.title)}</td><td><button class="alt small" data-act="unassign" data-id="${a.id}">Unassign</button></td></tr>`).join('')}</table>` : '<p class="hint">Nothing assigned yet.</p>'}
-  <form data-f="assign" data-c="${c.id}" class="row"><select name="l" aria-label="Lesson">${ls.map(l => `<option value="${l.id}">${esc(l.level)}: ${esc(l.title)}</option>`).join('')}</select><input type="date" name="d" value="${today()}" required aria-label="Day"><button>Assign</button></form></section>`).join('');
+function playerRow(player, teams, teamId) {
+    return '<li><span>' + esc(player.name) + '</span><span>' +
+        (state.game.use_teams ? moveMenu(player, teams, teamId) : '') +
+        ' <button class="chip-x" data-action="remove-player" data-player="' + player.id + '" data-name="' + esc(player.name) + '" title="Remove from this game" aria-label="Remove">&times;</button>' +
+        '</span></li>';
+}
 
-const curriculum = (ls, fl) => `<section class="card"><h2>Curriculum</h2>${[...new Set(ls.map(l => l.level))].map(v => `<h3>${esc(v)}</h3><table><tr><th>#</th><th>Lesson</th><th>Project</th><th>Lesson plan</th><th>Challenge</th><th>Flag</th><th></th></tr>
-  ${ls.filter(l => l.level == v).map(l => `<tr><td>${l.num}</td><td>${esc(l.title)}</td><td>${link(l.project_url)}</td><td>${link(l.plan_url)}</td><td>${esc(l.challenge || '')}</td><td>${esc((fl.find(x => x.challenge == l.challenge) || {}).flag || '')}</td><td><button class="alt small" data-act="dellesson" data-id="${l.id}">Delete</button></td></tr>`).join('')}</table>`).join('')}</section>
-  <section class="card"><h2>Add a lesson</h2><form data-f="lesson" class="grid">
-  <label>Level<input name="v" list="lv" placeholder="Cyber Level 1" required></label><datalist id="lv">${[...new Set(ls.map(l => l.level))].map(v => `<option value="${esc(v)}">`).join('')}</datalist>
-  <label>Number<input name="n" type="number" min="1" required></label><label>Title<input name="t" required></label>
-  <label>Project link<input name="p" placeholder="https://..."></label><label>Lesson plan link<input name="d" placeholder="https://..."></label>
-  <label>Challenge id (optional)<input name="c" placeholder="inspect-html"></label><label>Flag (the answer)<input name="f"></label><button>Add lesson</button></form></section>`;
+// Lobby
 
-app.onclick = async e => {
-  const b = e.target.closest('button'); if (!b) return; const a = b.dataset; let r;
-  if (a.v) { view = a.v; return render(); }
-  if (a.act == 'rename') { const n = prompt('New name (first last)', a.n); if (!n) return; const [f, ...l] = n.trim().split(/\s+/); r = await sb.from('students').update({ first: f, last: l.join(' ') }).eq('id', a.id); }
-  else if (a.act == 'pw') { const pw = prompt('Type a temporary password for ' + a.n + ' (6+ characters)'); if (!pw) return; r = await sb.rpc('set_student_password', { sid: a.id, pw: pw }); if (!r.error) alert('Done. Tell ' + a.n + ' to log in with that password.'); }
-  else if (a.act == 'remove') { if (!confirm('Remove this student and their login?')) return; r = await sb.rpc('remove_student', { sid: a.id }); }
-  else if (a.act == 'unassign') r = await sb.from('assignments').delete().eq('id', a.id);
-  else if (a.act == 'dellesson') { if (!confirm('Delete this lesson for all teachers?')) return; r = await sb.from('lessons').delete().eq('id', a.id); }
-  else return;
-  r.error ? alert(r.error.message) : render();
+function lobbyView() {
+    const game = state.game;
+    const studentPage = new URL('.', location.href).href;
+    let html =
+        '<div class="lobby-head">' +
+        '<h1>' + esc(game.title) + '</h1>' +
+        '<p class="join-instructions">Students: log in at <b>' + esc(studentPage) + '</b><br>and click the pink <b>Join the Live CTF</b> button.</p>' +
+        '<p class="hint">' + settingsSummary(game) + '</p>' +
+        '</div>' +
+        '<div class="row space-between lobby-bar">' +
+        '<div class="player-count"><b>' + state.player_count + '</b> joined</div>' +
+        '<div class="row">' +
+        (game.use_teams ? '<button class="alt" data-action="shuffle">Shuffle teams ' + tip('Puts every player into a random team, spread out evenly.') + '</button>' +
+            '<button class="alt" data-action="add-team">+ Add team</button>' : '') +
+        '<button class="alt danger" data-action="cancel">Cancel CTF</button>' +
+        '<button class="pink big" data-action="start">START</button>' +
+        '</div></div>';
+
+    if (!game.use_teams) {
+        const everyone = state.teams.map(function (team) { return team.players[0]; }).filter(Boolean);
+        html += '<section class="card"><h2>Players</h2>' +
+            (everyone.length
+                ? '<ul class="player-list">' + everyone.map(function (p) { return playerRow(p, [], null); }).join('') + '</ul>'
+                : '<p class="hint">Waiting for students to join...</p>') + '</section>';
+        return html;
+    }
+
+    html += '<div class="team-grid">' + state.teams.map(function (team) {
+        const sizeNote = game.team_size ? team.players.length + ' / ' + game.team_size : team.players.length + ' players';
+        return '<div class="team-card" style="border-color:' + esc(team.colour) + '">' +
+            '<div class="team-head" style="background:' + esc(team.colour) + ';color:' + textColourFor(team.colour) + '">' +
+            '<b>' + esc(team.name) + '</b><span>' +
+            '<button class="chip-x" data-action="edit-team" data-team="' + team.id + '" title="Rename or change colour" aria-label="Edit team">&#9998;</button>' +
+            '<button class="chip-x" data-action="delete-team" data-team="' + team.id + '" data-name="' + esc(team.name) + '" title="Delete team" aria-label="Delete team">&times;</button>' +
+            '</span></div>' +
+            '<ul class="player-list">' + team.players.map(function (p) { return playerRow(p, state.teams, team.id); }).join('') + '</ul>' +
+            '<p class="hint small-print">' + sizeNote + '</p></div>';
+    }).join('') + '</div>';
+
+    if (state.unassigned.length) {
+        html += '<section class="card"><h2>Not in a team yet ' +
+            tip('When you press START, anyone not in a team goes into the smallest team.') + '</h2>' +
+            '<ul class="player-list">' + state.unassigned.map(function (p) { return playerRow(p, state.teams, null); }).join('') + '</ul></section>';
+    }
+    return html;
+}
+
+// Running and finished
+
+function challengeBoxes() {
+    const game = state.game;
+    return '<div class="challenge-boxes">' + state.challenges.map(function (ch) {
+        let classes = 'ch-box';
+        let extra = '';
+        if (game.pacing === 'teacher' && game.status === 'running') {
+            if (ch.position === game.current_position) {
+                classes += ' current';
+                extra = '<div class="ch-clock" data-since="' + esc(game.position_started_at) + '"></div>';
+            } else if (ch.position > game.current_position) {
+                classes += ' upcoming';
+            }
+        }
+        const fastest = ch.fastest
+            ? '<div class="fastest"><span class="hint">Fastest</span><br>' + teamTag(ch.fastest.name, ch.fastest.colour) +
+              ' <b>' + formatClock(ch.fastest.seconds) + '</b></div>'
+            : '<div class="fastest hint">Not solved yet</div>';
+        return '<div class="' + classes + '"><div class="ch-num">' + ch.position + '</div>' +
+            '<div class="ch-title">' + esc(ch.title) + '</div>' + extra + fastest +
+            '<div class="hint small-print">Solved by ' + ch.solved_count + '</div></div>';
+    }).join('') + '</div>';
+}
+
+function leaderboard() {
+    const game = state.game;
+    const total = state.challenges.length;
+    if (!state.leaderboard.length) {
+        return '<section class="card"><p class="hint">Nobody on the leaderboard yet.</p></section>';
+    }
+    return '<div class="leaderboard">' + state.leaderboard.map(function (row) {
+        let progress = row.solved + ' solved';
+        if (game.pacing === 'self' && game.status === 'running') {
+            progress = row.position > total ? 'All done &#10003;' : 'On challenge ' + row.position + ' of ' + total;
+        }
+        return '<div class="lb-row' + (row.place <= 3 ? ' top' + row.place : '') + '" data-team="' + row.team_id + '">' +
+            '<span class="lb-place">' + medal(row.place) + '</span>' +
+            '<span class="lb-swatch" style="background:' + esc(row.colour || 'transparent') + '"></span>' +
+            '<span class="lb-name">' + esc(row.name) + '</span>' +
+            '<span class="lb-progress hint">' + progress + '</span>' +
+            '<span class="lb-points" data-points="' + row.points + '">' + row.points.toLocaleString() + '</span></div>';
+    }).join('') + '</div>';
+}
+
+function runningView() {
+    const game = state.game;
+    const isLast = game.current_position >= state.challenges.length;
+    const timer = game.ends_at
+        ? '<div class="big-timer"><span class="hint">Time left</span><span data-until="' + esc(game.ends_at) + '"></span></div>'
+        : '<div class="big-timer"><span class="hint">Time</span><span data-since="' + esc(game.started_at) + '"></span></div>';
+    let buttons = '';
+    if (game.pacing === 'teacher') {
+        buttons += isLast
+            ? '<button class="pink" data-action="end">Finish</button>'
+            : '<button class="pink" data-action="next">Next challenge &#9654;</button>';
+    }
+    buttons += '<button class="alt danger" data-action="end">End CTF</button>';
+
+    return '<div class="ctf-top"><div><h1>' + esc(game.title) + '</h1><p class="hint">' + esc(state.class_name) + ' &middot; ' + settingsSummary(game) + '</p></div>' +
+        timer + '<div class="row">' + buttons + '</div></div>' +
+        challengeBoxes() + leaderboard();
+}
+
+function finishedView() {
+    const game = state.game;
+    const podium = state.leaderboard.slice(0, 3).map(function (row) {
+        return '<div class="podium-step p' + row.place + '"><div class="podium-medal">' + medal(row.place) + '</div>' +
+            teamTag(row.name, row.colour) + '<div class="podium-points">' + row.points.toLocaleString() + '</div></div>';
+    }).join('');
+    const length = game.started_at ? formatClock((new Date(game.finished_at) - new Date(game.started_at)) / 1000) : '';
+    return '<div class="ctf-top"><div><h1>' + esc(game.title) + ': final results</h1>' +
+        '<p class="hint">' + esc(state.class_name) + (length ? ' &middot; lasted ' + length : '') + '</p></div></div>' +
+        (podium ? '<div class="podium">' + podium + '</div>' : '') +
+        challengeBoxes() + leaderboard();
+}
+
+// Team editing pop-up
+
+function showTeamEditor() {
+    const team = state.teams.find(function (t) { return t.id === editingTeamId; });
+    if (!team) {
+        modal.innerHTML = '';
+        return;
+    }
+    const swatches = state.colours.map(function (colour) {
+        const owner = state.teams.find(function (t) { return t.colour === colour && t.id !== team.id; });
+        return '<label class="swatch" style="background:' + colour + '" title="' + (owner ? 'Swap with ' + esc(owner.name) : 'Free') + '">' +
+            '<input type="radio" name="colour" value="' + colour + '"' + (colour === team.colour ? ' checked' : '') + '>' +
+            (owner ? '<span class="swatch-note" style="color:' + textColourFor(colour) + '">swap</span>' : '') + '</label>';
+    }).join('');
+    modal.innerHTML = '<div class="modal-backdrop"><form data-form="save-team" class="card modal-box">' +
+        '<h2>Edit team</h2>' +
+        '<label>Team name<input name="name" maxlength="20" value="' + esc(team.name) + '" required></label>' +
+        '<p><b>Colour</b> ' + tip('If you pick a colour another team has, the two teams swap colours.') + '</p>' +
+        '<div class="swatches">' + swatches + '</div>' +
+        '<div class="row"><button>Save</button><button type="button" class="alt" data-action="close-editor">Cancel</button></div>' +
+        '</form></div>';
+}
+
+// Drawing
+
+// Remembers where each leaderboard row was, so rows can slide to their new place
+function rowPositions() {
+    const positions = {};
+    document.querySelectorAll('.lb-row').forEach(function (row) {
+        positions[row.dataset.team] = { top: row.getBoundingClientRect().top, points: row.querySelector('.lb-points').dataset.points };
+    });
+    return positions;
+}
+
+function slideRows(before) {
+    document.querySelectorAll('.lb-row').forEach(function (row) {
+        const old = before[row.dataset.team];
+        if (!old) {
+            return;
+        }
+        const moved = old.top - row.getBoundingClientRect().top;
+        if (moved) {
+            row.style.transition = 'none';
+            row.style.transform = 'translateY(' + moved + 'px)';
+            requestAnimationFrame(function () {
+                row.style.transition = 'transform .6s ease';
+                row.style.transform = '';
+            });
+        }
+        if (old.points !== row.querySelector('.lb-points').dataset.points) {
+            row.classList.add('bump');
+        }
+    });
+}
+
+function draw() {
+    // Don't redraw while the teacher is using a dropdown
+    if (document.activeElement && document.activeElement.tagName === 'SELECT' && app.contains(document.activeElement)) {
+        return;
+    }
+    const before = rowPositions();
+    const game = state.game;
+    $('#back').href = 'teacher.html#class/' + game.class_id;
+    document.title = game.title + ' | Live CTF';
+
+    if (game.status === 'lobby') {
+        app.innerHTML = lobbyView();
+    } else if (game.status === 'running') {
+        app.innerHTML = runningView();
+    } else {
+        app.innerHTML = finishedView();
+    }
+    slideRows(before);
+    updateClocks();
+}
+
+async function refresh() {
+    const newState = await callDb('ctf_host_state', { ctf: ctfId });
+    syncClock(newState.now);
+    newState.now = null;
+    const snapshot = JSON.stringify(newState);
+    if (snapshot === lastDrawn) {
+        return;
+    }
+    lastDrawn = snapshot;
+    state = newState;
+    draw();
+}
+
+async function refreshNow() {
+    lastDrawn = '';
+    await refresh();
+}
+
+// Buttons
+
+const actions = {
+    'start': async function () {
+        if (state.player_count === 0 && !confirm('Nobody has joined yet. Start anyway?')) {
+            return;
+        }
+        await callDb('ctf_start', { ctf: ctfId });
+        await refreshNow();
+    },
+    'next': async function () {
+        await callDb('ctf_next', { ctf: ctfId });
+        await refreshNow();
+    },
+    'end': async function () {
+        if (!confirm('End the CTF now? Nobody can answer after this.')) {
+            return;
+        }
+        await callDb('ctf_end', { ctf: ctfId });
+        await refreshNow();
+    },
+    'cancel': async function () {
+        if (!confirm('Cancel this Live CTF? Students in the lobby will be sent back.')) {
+            return;
+        }
+        const classId = state.game.class_id;
+        must(await sb.from('ctfs').delete().eq('id', ctfId));
+        location.href = 'teacher.html#class/' + classId;
+    },
+    'shuffle': async function () {
+        await callDb('ctf_shuffle', { ctf: ctfId });
+        await refreshNow();
+    },
+    'add-team': async function () {
+        await callDb('ctf_add_team', { ctf: ctfId });
+        await refreshNow();
+    },
+    'delete-team': async function (data) {
+        if (!confirm('Delete ' + data.name + '? Its players will need a new team.')) {
+            return;
+        }
+        await callDb('ctf_delete_team', { team: Number(data.team) });
+        await refreshNow();
+    },
+    'remove-player': async function (data) {
+        if (!confirm('Take ' + data.name + ' out of this game?')) {
+            return;
+        }
+        await callDb('ctf_remove_player', { ctf: ctfId, student_uuid: data.player });
+        await refreshNow();
+    },
+    'edit-team': function (data) {
+        editingTeamId = Number(data.team);
+        showTeamEditor();
+    },
+    'close-editor': function () {
+        editingTeamId = null;
+        modal.innerHTML = '';
+    }
 };
 
-app.onsubmit = async e => {
-  const f = e.target, k = f.dataset.f; if (!k) return; e.preventDefault(); let r;
-  if (k == 'class') r = await sb.from('classes').insert({ teacher_id: uid, name: f.n.value.trim() });
-  if (k == 'assign') r = await sb.from('assignments').insert({ class_id: f.dataset.c, lesson_id: +f.l.value, day: f.d.value });
-  if (k == 'lesson') {
-    r = await sb.from('lessons').insert({ level: f.v.value.trim(), num: +f.n.value, title: f.t.value.trim(), project_url: f.p.value.trim() || null, plan_url: f.d.value.trim() || null, challenge: f.c.value.trim() || null });
-    if (!r.error && f.c.value.trim() && f.f.value.trim()) r = await sb.from('flags').upsert({ challenge: f.c.value.trim(), flag: f.f.value.trim() });
-  }
-  r.error ? alert(r.error.message) : render();
+const changes = {
+    'move-player': async function (data, select) {
+        await callDb('ctf_move_player', { ctf: ctfId, student_uuid: data.player, team: select.value ? Number(select.value) : null });
+        select.blur();
+        await refreshNow();
+    }
 };
 
-$('#out').onclick = async () => { await sb.auth.signOut(); login(); };
-start();
+const forms = {
+    'save-team': async function (form) {
+        const picked = form.querySelector('input[name="colour"]:checked');
+        await callDb('ctf_edit_team', {
+            team: editingTeamId,
+            new_name: form.elements.name.value,
+            new_colour: picked ? picked.value : null
+        });
+        editingTeamId = null;
+        modal.innerHTML = '';
+        await refreshNow();
+    }
+};
+
+async function main() {
+    if (!ctfId) {
+        app.innerHTML = '<section class="card"><p>No Live CTF chosen. Go back to your class and open it from there.</p></section>';
+        return;
+    }
+    onAction(app, actions);
+    onChange(app, changes);
+    onAction(modal, actions);
+    onForm(modal, forms);
+    startClocks();
+
+    // Check it loads before we start repeating
+    await runSafely(async function () {
+        try {
+            await refresh();
+        } catch (err) {
+            app.innerHTML = '<section class="card"><h2>Can\'t open this Live CTF</h2><p>' + esc(err.message) + '</p>' +
+                '<p><a href="teacher.html">Go to the teacher login</a></p></section>';
+            throw err;
+        }
+        // Keep the screen up to date. If one check fails (e.g. Wi-Fi drops out),
+        // it just tries again next time
+        repeat(refresh, 2000);
+    });
+}
+
+main();

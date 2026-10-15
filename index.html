@@ -6,23 +6,29 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Code4Fun Cybersecurity</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="c4f-logo.png">
 </head>
 
 <body>
-    <header><img src="https://www.code4fun.com.au/app/uploads/2021/08/logo.svg" alt="Code4Fun"><span>Cybersecurity</span><a href="teacher.html">Teacher login</a></header>
+    <header>
+        <img src="https://www.code4fun.com.au/app/uploads/2021/08/logo.svg" alt="Code4Fun"><span>Cybersecurity</span>
+        <a href="help-student.html">Help</a>
+        <a href="teacher.html">Teacher login</a>
+    </header>
     <main>
         <h1>Ready to hack?</h1>
         <p id="sub"></p>
-        <nav><button type="button" id="tr">Register</button><button type="button" id="tl">Log in</button></nav>
+        <nav><button type="button" id="register-tab">Register</button><button type="button" id="login-tab">Log in</button></nav>
         <form id="join" class="card narrow">
-            <label>Class code<input id="code" class="join" maxlength="6" autocomplete="off" required></label>
+            <label>Class code <span class="tip" tabindex="0" data-tip="The 6 letter code your teacher gave you.">?</span><input id="code" class="join" maxlength="6" autocomplete="off" required></label>
             <div class="grid"><label>First name<input id="first" maxlength="40" required></label><label>Last name<input id="last" maxlength="40" required></label></div>
             <label>Password (6+ characters)<input id="pw" type="password" minlength="6" required></label>
             <button id="go"></button>
             <p id="m" class="msg"></p>
+            <p class="hint small-print">Forgot your password? Ask your teacher to give you a new one.</p>
         </form>
     </main>
-    <script type="module" src="index.js"></script>
+    <script type="module" src="js/login.js"></script>
 </body>
 
 </html>

@@ -219,3 +219,1133 @@ pre {
 a {
     color: #0b7f7b
 }
+
+
+/* =====================================================================
+   Everything below was added for the new version of the site (15/10/26)
+   Everything above is the original style, unchanged
+   ===================================================================== */
+
+[hidden] {
+    display: none !important
+}
+
+main.wide {
+    max-width: 1200px
+}
+
+.card {
+    overflow-x: auto
+}
+
+header a {
+    font-weight: 700;
+    text-decoration: none
+}
+
+/* buttons and links that look like buttons */
+
+a.button {
+    display: inline-block;
+    font-weight: 800;
+    padding: 10px 18px;
+    border-radius: 10px;
+    background: var(--teal);
+    color: #fff;
+    text-decoration: none;
+    border: 2px solid transparent
+}
+
+a.button:hover {
+    filter: brightness(.93)
+}
+
+a.button.alt {
+    background: #fff;
+    color: var(--ink);
+    border-color: #cfd7e4
+}
+
+a.button.small {
+    padding: 3px 10px;
+    font-size: .95rem
+}
+
+button.pink,
+a.button.pink {
+    background: var(--pink);
+    color: #fff
+}
+
+button.big,
+a.button.big {
+    font-size: 1.2rem;
+    padding: 14px 28px
+}
+
+button.danger,
+a.button.danger {
+    color: #d0213f
+}
+
+button:disabled {
+    opacity: .5;
+    cursor: not-allowed
+}
+
+/* small helpers */
+
+.row.space-between {
+    justify-content: space-between;
+    align-items: center
+}
+
+.row.tight {
+    gap: 6px;
+    margin-top: 6px
+}
+
+.row.tight select {
+    min-width: 120px;
+    padding: 4px 8px
+}
+
+td.actions {
+    text-align: right;
+    white-space: nowrap
+}
+
+.small-print {
+    font-size: .9rem;
+    margin: 6px 0 0
+}
+
+.small-code {
+    font-size: 1rem;
+    padding: 1px 8px
+}
+
+label.short {
+    max-width: 200px
+}
+
+.center {
+    text-align: center
+}
+
+.inline-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700
+}
+
+.inline-check input {
+    width: auto;
+    margin: 0
+}
+
+/* Tooltips: <span class="tip" data-tip="Help text">?</span> */
+
+.tip {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #e3e8f0;
+    color: var(--ink);
+    font: 800 13px/1 Nunito, system-ui, sans-serif;
+    cursor: help;
+    vertical-align: middle;
+    letter-spacing: 0;
+    text-transform: none
+}
+
+.tip:hover::after,
+.tip:focus::after {
+    content: attr(data-tip);
+    position: absolute;
+    z-index: 50;
+    left: 50%;
+    top: 26px;
+    transform: translateX(-50%);
+    width: max-content;
+    max-width: 260px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: var(--ink);
+    color: #fff;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.4;
+    text-align: left;
+    white-space: normal;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, .2)
+}
+
+/* Tabs */
+
+nav.tabs {
+    border-bottom: 2px solid #e3e8f0;
+    gap: 4px
+}
+
+.tab {
+    padding: 8px 16px;
+    font-weight: 800;
+    color: var(--ink);
+    text-decoration: none;
+    border-radius: 10px 10px 0 0;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px
+}
+
+.tab.on {
+    border-bottom-color: var(--teal);
+    color: #0b7f7b
+}
+
+.count {
+    background: var(--pink);
+    color: #fff;
+    border-radius: 99px;
+    padding: 0 8px;
+    font-size: .85rem
+}
+
+/* Class tiles */
+
+.tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px
+}
+
+.tile {
+    display: block;
+    background: #fff;
+    border: 2px solid #e3e8f0;
+    border-radius: 14px;
+    padding: 16px 20px;
+    color: var(--ink);
+    text-decoration: none
+}
+
+.tile:hover {
+    border-color: var(--teal)
+}
+
+.tile h3 {
+    margin: 0 0 8px
+}
+
+.tile p {
+    margin: 4px 0
+}
+
+/* Pills, chips, spoilers */
+
+.pill {
+    display: inline-block;
+    background: #e3e8f0;
+    border-radius: 99px;
+    padding: 1px 10px;
+    font-size: .85rem;
+    font-weight: 800
+}
+
+.pill.green {
+    background: #d4f5e6;
+    color: #0a6a46
+}
+
+.pill.yellow {
+    background: #fff1c2;
+    color: #7a5a00
+}
+
+.pill.pink {
+    background: #fde0ec;
+    color: #a3134f
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #e6f7f6;
+    border-radius: 99px;
+    padding: 2px 4px 2px 12px;
+    font-weight: 700;
+    margin: 2px 0
+}
+
+.chip-x {
+    background: transparent;
+    color: inherit;
+    padding: 0 6px;
+    font-size: 1.1rem;
+    line-height: 1.2;
+    border-radius: 99px
+}
+
+.chip-x:hover {
+    background: rgba(0, 0, 0, .12)
+}
+
+.spoiler {
+    background: #e3e8f0;
+    color: transparent;
+    text-shadow: 0 0 8px rgba(0, 0, 0, .5);
+    padding: 2px 10px;
+    font-weight: 700
+}
+
+.spoiler.shown {
+    color: var(--ink);
+    text-shadow: none;
+    background: var(--yel)
+}
+
+/* Pop-up messages at the bottom of the screen */
+
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%);
+    z-index: 200;
+    background: #0a8a5a;
+    color: #fff;
+    font-weight: 800;
+    padding: 12px 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .2);
+    max-width: calc(100% - 32px)
+}
+
+.toast.bad-toast {
+    background: #d0213f
+}
+
+/* Setting up a Live CTF */
+
+.choice {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-weight: 400;
+    padding: 10px 12px;
+    border: 2px solid #e3e8f0;
+    border-radius: 10px
+}
+
+.choice input {
+    width: auto;
+    margin-top: 4px
+}
+
+.choice:has(input:checked) {
+    border-color: var(--teal);
+    background: #f0fbfa
+}
+
+.pick-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px
+}
+
+.pick {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    color: var(--ink);
+    border: 2px solid #cfd7e4;
+    font-weight: 400
+}
+
+.pick.picked {
+    border-color: var(--pink);
+    background: #fff0f6
+}
+
+.pick-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid #cfd7e4;
+    font-weight: 800
+}
+
+.pick.picked .pick-number {
+    background: var(--pink);
+    border-color: var(--pink);
+    color: #fff
+}
+
+/* Live CTF on the class page and student page */
+
+.ctf-card {
+    border-color: var(--pink);
+    background: linear-gradient(135deg, #fff 70%, #fff0f6)
+}
+
+.flag-icon {
+    color: var(--pink)
+}
+
+.ctf-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    border: 3px solid var(--pink);
+    background: #fff0f6
+}
+
+.ctf-banner h2 {
+    margin: 4px 0
+}
+
+.live-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--pink);
+    margin-right: 8px;
+    animation: pulse 1.2s infinite
+}
+
+@keyframes pulse {
+    50% {
+        opacity: .3
+    }
+}
+
+/* Live CTF screens (dark theme so it looks different from lessons) */
+
+body.ctf-mode {
+    background: var(--ink)
+}
+
+body.ctf-mode header {
+    border-bottom-color: var(--pink)
+}
+
+body.ctf-mode main>h1,
+body.ctf-mode main>h2,
+body.ctf-mode main>p,
+body.ctf-mode .lobby-head,
+body.ctf-mode .ctf-top,
+body.ctf-mode .lobby-bar,
+body.ctf-mode .challenge-head {
+    color: #fff
+}
+
+body.ctf-mode .hint {
+    color: #a9b1d6
+}
+
+body.ctf-mode .card .hint,
+body.ctf-mode .team-card .hint,
+body.ctf-mode .ch-box .hint {
+    color: #5a6485
+}
+
+.live-badge {
+    background: var(--pink);
+    color: #fff;
+    padding: 2px 10px;
+    border-radius: 8px;
+    letter-spacing: .1em
+}
+
+/* Lobby */
+
+.lobby-head {
+    text-align: center
+}
+
+.lobby-head h1 {
+    font-size: 3rem
+}
+
+.join-instructions {
+    font-size: 1.4rem
+}
+
+.lobby-bar {
+    margin: 20px 0
+}
+
+.player-count {
+    font-size: 1.4rem
+}
+
+.player-count b {
+    font-size: 2.4rem;
+    color: var(--yel)
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px
+}
+
+.team-card {
+    background: #fff;
+    border: 4px solid #cfd7e4;
+    border-radius: 14px;
+    overflow: hidden;
+    padding-bottom: 10px
+}
+
+.team-card.mine {
+    box-shadow: 0 0 0 4px var(--yel)
+}
+
+.team-card>p {
+    padding: 0 14px
+}
+
+.team-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 14px;
+    font-size: 1.1rem
+}
+
+.player-list {
+    list-style: none;
+    margin: 0;
+    padding: 6px 14px
+}
+
+.player-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+    border-bottom: 1px solid #eef1f6
+}
+
+select.mini {
+    width: auto;
+    display: inline-block;
+    margin: 0;
+    padding: 2px 6px;
+    font-size: .85rem
+}
+
+/* Team name tags */
+
+.team-tag {
+    display: inline-block;
+    padding: 2px 12px;
+    border-radius: 99px;
+    font-weight: 800
+}
+
+.team-tag.plain {
+    background: #e3e8f0;
+    color: var(--ink)
+}
+
+/* Colour picker */
+
+.swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px
+}
+
+.swatch {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    margin: 0;
+    cursor: pointer;
+    border: 3px solid transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.swatch input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px
+}
+
+.swatch:has(input:checked) {
+    border-color: var(--ink);
+    box-shadow: 0 0 0 3px #fff inset
+}
+
+.swatch:has(input:focus-visible) {
+    outline: 3px solid var(--yel)
+}
+
+.swatch.taken {
+    opacity: .25;
+    cursor: not-allowed
+}
+
+.swatch-note {
+    font-size: .7rem;
+    font-weight: 800
+}
+
+/* Pop-up box for editing a team */
+
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(29, 35, 64, .6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px
+}
+
+.modal-box {
+    width: 100%;
+    max-width: 440px;
+    margin: 0
+}
+
+/* Running: top bar and timer */
+
+.ctf-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 20px
+}
+
+.ctf-top h1 {
+    margin: 0
+}
+
+.ctf-top p {
+    margin: 4px 0 0
+}
+
+.big-timer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font: 800 3rem monospace;
+    color: var(--yel)
+}
+
+.big-timer .hint {
+    font: 700 1rem Nunito, system-ui, sans-serif
+}
+
+.urgent {
+    color: #ff5a6e !important;
+    animation: pulse 1s infinite
+}
+
+/* Running: a box per challenge */
+
+.challenge-boxes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px
+}
+
+.ch-box {
+    position: relative;
+    background: #fff;
+    border-radius: 14px;
+    padding: 14px;
+    border: 3px solid #e3e8f0
+}
+
+.ch-box.current {
+    border-color: var(--yel);
+    box-shadow: 0 0 0 4px rgba(255, 200, 46, .4)
+}
+
+.ch-box.upcoming {
+    opacity: .55
+}
+
+.ch-num {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--pink);
+    color: #fff;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.ch-title {
+    font-weight: 800;
+    margin-bottom: 8px
+}
+
+.ch-clock {
+    font: 800 1.4rem monospace;
+    color: var(--pink)
+}
+
+.fastest {
+    margin: 6px 0
+}
+
+/* Leaderboard */
+
+.leaderboard {
+    display: flex;
+    flex-direction: column;
+    gap: 8px
+}
+
+.lb-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 10px 16px;
+    font-size: 1.2rem
+}
+
+.lb-row.top1 {
+    background: #fff6d6
+}
+
+.lb-place {
+    width: 48px;
+    text-align: center;
+    font-weight: 800;
+    font-size: 1.4rem
+}
+
+.lb-swatch {
+    width: 18px;
+    height: 32px;
+    border-radius: 6px
+}
+
+.lb-name {
+    flex: 1;
+    font-weight: 800
+}
+
+.lb-progress {
+    font-size: .95rem
+}
+
+.lb-points {
+    font: 800 1.5rem monospace;
+    min-width: 90px;
+    text-align: right
+}
+
+.lb-row.bump .lb-points {
+    animation: bump .8s ease
+}
+
+@keyframes bump {
+    30% {
+        transform: scale(1.35);
+        color: var(--pink)
+    }
+}
+
+/* Final results */
+
+.podium {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 16px;
+    margin: 20px 0 30px
+}
+
+.podium-step {
+    background: #fff;
+    border-radius: 14px 14px 0 0;
+    padding: 16px;
+    text-align: center;
+    min-width: 160px
+}
+
+.podium-step.p1 {
+    order: 2;
+    padding-top: 48px
+}
+
+.podium-step.p2 {
+    order: 1;
+    padding-top: 28px
+}
+
+.podium-step.p3 {
+    order: 3
+}
+
+.podium-medal {
+    font-size: 2.6rem
+}
+
+.podium-points {
+    font: 800 1.6rem monospace;
+    margin-top: 6px
+}
+
+/* Student: status bar, progress, answer box */
+
+.status-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 24px;
+    align-items: center;
+    background: #fff;
+    border-radius: 14px;
+    padding: 12px 18px;
+    font-size: 1.1rem
+}
+
+.progress {
+    display: flex;
+    gap: 8px;
+    margin: 14px 0;
+    flex-wrap: wrap
+}
+
+.dot {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    background: #3a4170;
+    color: #a9b1d6
+}
+
+.dot.done {
+    background: #3cb44b;
+    color: #fff
+}
+
+.dot.skipped {
+    background: #6b7194;
+    color: #fff
+}
+
+.dot.current {
+    background: var(--yel);
+    color: var(--ink);
+    box-shadow: 0 0 0 4px rgba(255, 200, 46, .35)
+}
+
+.challenge-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px
+}
+
+.challenge-head h2 {
+    margin: 8px 0
+}
+
+.ch-timer b {
+    font-family: monospace;
+    font-size: 1.3rem;
+    color: var(--yel)
+}
+
+.answer-bar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap
+}
+
+.answer-bar input {
+    flex: 1;
+    min-width: 200px;
+    margin: 0;
+    font-size: 1.2rem
+}
+
+body.ctf-mode .msg.bad {
+    color: #ff7b8c
+}
+
+body.ctf-mode .msg.good {
+    color: #6be3a4
+}
+
+.shake {
+    animation: shake .4s
+}
+
+@keyframes shake {
+    20%,
+    60% {
+        transform: translateX(-8px)
+    }
+    40%,
+    80% {
+        transform: translateX(8px)
+    }
+}
+
+.challenge-frame {
+    width: 100%;
+    height: 65vh;
+    border: 0;
+    border-radius: 14px;
+    background: var(--bg)
+}
+
+body.ctf-mode .small-print a {
+    color: #7fe3df
+}
+
+/* Student: waiting and finished screens */
+
+.waiting-card h1,
+.waiting-card h2 {
+    margin: 8px 0
+}
+
+.big-emoji {
+    font-size: 3.5rem;
+    line-height: 1
+}
+
+.dots::after {
+    content: '';
+    animation: dots 1.5s infinite steps(4)
+}
+
+@keyframes dots {
+    0% {
+        content: ''
+    }
+    25% {
+        content: '.'
+    }
+    50% {
+        content: '..'
+    }
+    75% {
+        content: '...'
+    }
+}
+
+.final-place {
+    font-size: 4rem;
+    font-weight: 800;
+    margin: 0;
+    color: var(--pink)
+}
+
+/* Student: the "you solved it" pop-up */
+
+.popup-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+    background: rgba(29, 35, 64, .75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    overflow: hidden
+}
+
+.popup-box {
+    background: #fff;
+    border-radius: 20px;
+    padding: 28px;
+    max-width: 440px;
+    width: 100%;
+    text-align: center;
+    animation: pop-in .5s cubic-bezier(.2, 1.6, .4, 1)
+}
+
+.popup-box h2 {
+    margin: 10px 0
+}
+
+.popup-tick {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: #3cb44b;
+    color: #fff;
+    font-size: 3.2rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: spin-in .7s ease
+}
+
+.popup-points {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--pink);
+    margin: 4px 0
+}
+
+.popup-place {
+    font-size: 1.3rem;
+    margin: 12px 0 4px
+}
+
+.popup-place b {
+    color: #0b7f7b;
+    font-size: 1.6rem
+}
+
+.popup-chase {
+    margin: 0 0 18px
+}
+
+@keyframes pop-in {
+    from {
+        transform: scale(.4);
+        opacity: 0
+    }
+}
+
+@keyframes spin-in {
+    from {
+        transform: rotate(-180deg) scale(0)
+    }
+}
+
+.confetti {
+    position: absolute;
+    top: -20px;
+    width: 10px;
+    height: 16px;
+    border-radius: 3px;
+    animation: fall 2.4s linear forwards
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(110vh) rotate(720deg)
+    }
+}
+
+/* Challenge pages opened inside a Live CTF: hide the header and the practice answer box */
+
+body.in-live-ctf header,
+body.in-live-ctf #flag {
+    display: none
+}
+
+body.in-live-ctf main {
+    margin-top: 12px
+}
+
+/* Help pages */
+
+.help-toc {
+    columns: 2 220px
+}
+
+.help-toc a {
+    display: block;
+    padding: 2px 0
+}
+
+.help h2 {
+    margin-top: 8px
+}
+
+.help li {
+    margin-bottom: 6px
+}
+
+.help kbd {
+    background: #eef1f6;
+    border: 1px solid #cfd7e4;
+    border-radius: 6px;
+    padding: 0 6px;
+    font-family: monospace
+}
+
+.note {
+    background: #fff6d6;
+    border-left: 4px solid var(--yel);
+    padding: 10px 14px;
+    border-radius: 8px
+}
+
+/* Phones */
+
+@media (max-width: 600px) {
+    header {
+        flex-wrap: wrap;
+        padding: 10px 16px
+    }
+    .lobby-head h1 {
+        font-size: 2rem
+    }
+    .big-timer {
+        font-size: 2rem
+    }
+    .lb-row {
+        font-size: 1rem;
+        gap: 8px
+    }
+    .lb-progress {
+        display: none
+    }
+}
+
+body.ctf-mode .popup-box .hint {
+    color: #5a6485
+}
+
+nav.tabs .tab.on {
+    background: transparent;
+    color: #0b7f7b;
+    border-color: transparent;
+    border-bottom-color: var(--teal)
+}

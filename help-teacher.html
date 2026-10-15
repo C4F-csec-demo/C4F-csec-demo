@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Teacher help | Code4Fun Cybersecurity</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="c4f-logo.png">
+</head>
+
+<body>
+    <header>
+        <a href="index.html"><img src="https://www.code4fun.com.au/app/uploads/2021/08/logo.svg" alt="Code4Fun"></a><span>Teacher help</span>
+        <a href="help-student.html">Student help</a>
+        <a href="teacher.html">Teacher page</a>
+    </header>
+    <main class="help">
+        <h1>How to use this website (teachers)</h1>
+        <p>This page explains everything teachers can do on the site. If you only read one part, read <a href="#quick-start">Quick start</a>.</p>
+
+        <section class="card">
+            <h2>Contents</h2>
+            <div class="help-toc">
+                <a href="#quick-start">1. Quick start</a>
+                <a href="#account">2. Your teacher account</a>
+                <a href="#classes">3. Classes and join codes</a>
+                <a href="#students">4. Students</a>
+                <a href="#lessons">5. Giving lessons to a class</a>
+                <a href="#curriculum">6. The curriculum and adding lessons</a>
+                <a href="#lessons-vs-ctf">7. Lessons vs Live CTF</a>
+                <a href="#live-ctf">8. Running a Live CTF</a>
+                <a href="#scoring">9. How Live CTF scoring works</a>
+                <a href="#admin">10. Admin page (Ben and Grig)</a>
+                <a href="#problems">11. Common problems</a>
+            </div>
+        </section>
+
+        <section class="card" id="quick-start">
+            <h2>1. Quick start</h2>
+            <ol>
+                <li>Go to the <a href="teacher.html">Teacher page</a> and log in (or create an account, see <a href="#account">section 2</a>).</li>
+                <li>Under <b>My classes</b>, type a class name (like "PLC Year 7 Tuesday") and click <b>Create class</b>.</li>
+                <li>You'll see the class's <b>join code</b> (6 letters and numbers on a yellow background). Write it on the board.</li>
+                <li>Students go to the student page, click <b>Register</b>, and type the join code, their first and last name, and a password.</li>
+                <li>In the <b>Lessons</b> box, pick a lesson and a day, then click <b>Assign</b>. Students can now open that lesson's challenge.</li>
+                <li>Want a competition? Click <b>Set up a Live CTF</b> in the pink box. See <a href="#live-ctf">section 8</a>.</li>
+            </ol>
+            <p class="note">Anywhere you see a little <span class="tip" tabindex="0" data-tip="Like this! Hover over (or tap) these for a quick explanation.">?</span>, hover over it (or tap it) for a quick explanation.</p>
+        </section>
+
+        <section class="card" id="account">
+            <h2>2. Your teacher account</h2>
+            <h3>Making an account</h3>
+            <ol>
+                <li>Go to the <a href="teacher.html">Teacher page</a> and click <b>Create account</b>.</li>
+                <li>Type your email, a password (at least 8 characters, and please don't reuse one from somewhere else) and your name.</li>
+                <li>If an admin gave you an <b>invite code</b>, type it in too. Your account is approved straight away.</li>
+                <li>No invite code? You'll see "Waiting for approval". Ask Ben or Grig to approve you, then click <b>Refresh</b>. If you get an invite code later, you can type it in on that same screen.</li>
+            </ol>
+            <h3>Forgot your password</h3>
+            <p>Ask an admin (Ben or Grig). They can set a new password for you from the Admin page.</p>
+            <h3>Signing out</h3>
+            <p>Click <b>Sign out</b> in the top right. Always sign out on shared school computers.</p>
+            <p class="hint">A teacher account and a student account can't be the same login. If you want to see what students see, use a separate student account in a different browser or an incognito/private window.</p>
+        </section>
+
+        <section class="card" id="classes">
+            <h2>3. Classes and join codes</h2>
+            <ul>
+                <li><b>Make a class:</b> on <b>My classes</b>, type a name and click <b>Create class</b>.</li>
+                <li><b>Open a class:</b> click its tile. You'll see its join code, the Live CTF box, its lessons and its students.</li>
+                <li><b>Join code:</b> every class has its own code. Students need it to register and to log in, so it's fine to leave it on the board.</li>
+                <li><b>Rename a class:</b> open it and click <b>Rename class</b>.</li>
+                <li><b>Shared classes:</b> a class can have more than one teacher (for example a substitute). Everyone listed next to "Teachers" can see and manage the class. Only admins can share a class or hand it over to someone else (see <a href="#admin">section 10</a>).</li>
+                <li><b>Deleting a class:</b> only admins can do this, because it deletes all the students' logins too.</li>
+            </ul>
+        </section>
+
+        <section class="card" id="students">
+            <h2>4. Students</h2>
+            <h3>How students register and log in</h3>
+            <p>Students don't need an email. They register on the student page with the <b>class join code</b>, their <b>first and last name</b> and a <b>password</b> (6+ characters). After that they log in with the same three things. Names aren't case sensitive, so "amy lee" works for "Amy Lee".</p>
+            <p>Two students in the same class can't have exactly the same first and last name. If that happens, ask one of them to add a middle initial to their last name (for example "Lee J").</p>
+            <h3>Things you can do in the Students table</h3>
+            <ul>
+                <li><b>Rename:</b> fix a typo in a student's name. Type their first name, a space, then their last name. Tell them, because they log in with their name.</li>
+                <li><b>New password:</b> for when a student forgets their password. Type a temporary password and tell the student. Students can't change or reset passwords themselves.</li>
+                <li><b>Remove:</b> deletes the student and their login completely. This can't be undone.</li>
+                <li><b>Challenges solved:</b> how many challenges they've solved during normal lessons. Hover over the number to see which ones. (Live CTF answers aren't counted here.)</li>
+            </ul>
+        </section>
+
+        <section class="card" id="lessons">
+            <h2>5. Giving lessons to a class</h2>
+            <ol>
+                <li>Open the class.</li>
+                <li>In the <b>Lessons</b> box, pick a lesson from the list and a day.</li>
+                <li>Click <b>Assign</b>.</li>
+            </ol>
+            <p>Students see a lesson <b>from its day onwards</b>. So you can assign next week's lesson today, and students won't see it until next week. The status shows either <span class="pill green">Students can see it</span> or <span class="pill">Unlocks Thu 22 Oct 2026</span>.</p>
+            <p>Click <b>Unassign</b> to take a lesson away from the class.</p>
+            <h3>What students see</h3>
+            <p>On their page, students see each lesson with an <b>Open challenge</b> button (and an <b>Open resource</b> button if the lesson has a resource link). A challenge page has the challenge and an answer box. When they get it right it says "Correct!" and the lesson gets a <span class="badge">Solved</span> badge.</p>
+            <p>You can open any challenge page and check answers yourself while logged in as a teacher. Your answers aren't recorded anywhere.</p>
+        </section>
+
+        <section class="card" id="curriculum">
+            <h2>6. The curriculum and adding lessons</h2>
+            <p>The <b>Curriculum</b> tab on the teacher page lists every lesson, grouped by level, like the Code4Fun curriculum spreadsheets. For each lesson you can see:</p>
+            <ul>
+                <li><b>Resource:</b> a link for the lesson (for example a demo page).</li>
+                <li><b>Lesson plan:</b> a link to the lesson plan document.</li>
+                <li><b>Challenge:</b> the challenge page students open.</li>
+                <li><b>Flag:</b> the answer to the challenge. It's blurred so it isn't shown by accident on a projector. Click it to show it.</li>
+            </ul>
+            <h3>Adding a lesson</h3>
+            <ol>
+                <li>Fill in the <b>Add a lesson</b> form at the bottom: level, lesson number and title. Links are optional.</li>
+                <li><b>Challenge id</b> is the file name of the challenge page in the website's <code>challenges</code> folder, without ".html". For example <code>caesar</code> for <code>challenges/caesar.html</code>.</li>
+                <li><b>Flag</b> is the answer. You only need it if the challenge is new. If the challenge already exists, leave it empty.</li>
+                <li>Click <b>Add lesson</b>.</li>
+            </ol>
+            <p>New lessons show <span class="pill yellow">Waiting for approval</span> until an admin approves them. Until then, only you and the admins can see them, and they can't be assigned to classes. (Lessons added by admins are approved straight away.)</p>
+            <p>Only admins can delete lessons.</p>
+            <p class="note">Adding a lesson doesn't make a new challenge page. The page itself (the HTML file) has to be added to the website by Ben.</p>
+        </section>
+
+        <section class="card" id="lessons-vs-ctf">
+            <h2>7. Lessons vs Live CTF</h2>
+            <p>The site has two separate ways to use challenges:</p>
+            <table>
+                <tr>
+                    <th></th>
+                    <th>Lessons</th>
+                    <th>Live CTF</th>
+                </tr>
+                <tr>
+                    <td><b>What it's for</b></td>
+                    <td>Learning a concept and practising at your own pace</td>
+                    <td>A timed competition with a live leaderboard</td>
+                </tr>
+                <tr>
+                    <td><b>Looks like</b></td>
+                    <td>Light background, teal colours</td>
+                    <td>Dark background, pink "LIVE CTF" badge</td>
+                </tr>
+                <tr>
+                    <td><b>Students open it from</b></td>
+                    <td>Their lesson list</td>
+                    <td>The pink "Join the Live CTF" button on their page</td>
+                </tr>
+                <tr>
+                    <td><b>Timing and points</b></td>
+                    <td>None, just "Correct!"</td>
+                    <td>Each challenge is timed, faster = more points</td>
+                </tr>
+                <tr>
+                    <td><b>Counts towards</b></td>
+                    <td>"Challenges solved" in the Students table</td>
+                    <td>Only that Live CTF's leaderboard</td>
+                </tr>
+            </table>
+            <p>A Live CTF can use any challenge, even ones the class hasn't been assigned. Keep in mind that if students already solved a challenge in a lesson, they'll know the answer.</p>
+        </section>
+
+        <section class="card" id="live-ctf">
+            <h2>8. Running a Live CTF</h2>
+            <h3>Step 1: Set it up</h3>
+            <p>Open the class and click <b>Set up a Live CTF</b> in the pink box. Then:</p>
+            <ol>
+                <li><b>Name:</b> anything you like. It's shown on the big screen.</li>
+                <li><b>Challenges:</b> click them <b>in the order you want them</b>. Each one gets a number. Click one again to take it out.</li>
+                <li><b>Pacing:</b>
+                    <ul>
+                        <li><b>Self-paced:</b> each student (or team) moves to the next challenge as soon as they solve one. They can also <b>skip</b> a challenge for 0 points if they're stuck.</li>
+                        <li><b>Teacher-paced (like Kahoot):</b> everyone works on the same challenge at the same time. When you're ready, click <b>Next challenge</b> on the big screen. There's no skipping.</li>
+                    </ul>
+                </li>
+                <li><b>Time limit:</b> optional. Leave it empty for no limit. When time runs out, nobody can answer and the results are shown.</li>
+                <li><b>Teams:</b> tick <b>Play in teams</b> if you want teams. Then choose:
+                    <ul>
+                        <li><b>Number of teams</b> (2 to 12).</li>
+                        <li><b>Max students per team</b> (optional). This only stops students picking a full team. You can still move anyone anywhere.</li>
+                        <li><b>How are teams made:</b> <b>Students pick a team</b> (they click a team to join it), or <b>Random</b> (you click <b>Shuffle teams</b> in the lobby).</li>
+                        <li><b>Team names and colours:</b> <b>Automatic</b> (Team 1, Team 2... each with a different colour) or <b>Students choose</b> (each team picks its own name and colour in the lobby).</li>
+                    </ul>
+                    Without teams, everyone plays on their own and shows on the leaderboard as their first name and last initial (like "Amy L.").
+                </li>
+                <li>Click <b>Open the lobby</b>. This takes you to the <b>big screen</b>. Put it on the projector.</li>
+            </ol>
+            <p class="hint">A class can only have one Live CTF open at a time.</p>
+
+            <h3>Step 2: The lobby (students join)</h3>
+            <p>Students log in as normal. Within a few seconds a pink <b>Join the Live CTF</b> button appears on their page. When they click it, they show up on your screen.</p>
+            <p>In the lobby you can:</p>
+            <ul>
+                <li><b>Move a player</b> to another team with the little menu next to their name.</li>
+                <li><b>Remove a player</b> from the game with the &times; next to their name. (They can rejoin from their page.)</li>
+                <li><b>Shuffle teams:</b> puts everyone into random teams, spread out evenly.</li>
+                <li><b>+ Add team</b>, or delete a team with the &times; in its coloured bar.</li>
+                <li><b>Rename a team or change its colour</b> with the &#9998; (pencil) button. Pick a colour another team has and the two teams <b>swap</b> colours, so no two teams ever share one. Use this if students choose an inappropriate name.</li>
+                <li><b>Cancel CTF</b> if you change your mind.</li>
+            </ul>
+            <p>When students choose team names, they can change them until you press START. After that, only you can change them.</p>
+            <p>Anyone who isn't in a team when you press START is put into the smallest team.</p>
+
+            <h3>Step 3: START</h3>
+            <p>Click <b>START</b>. Students' screens change to the first challenge, and the timer starts.</p>
+            <p>The big screen shows:</p>
+            <ul>
+                <li><b>The timer</b> (counting up, or counting down if you set a time limit).</li>
+                <li><b>A box for each challenge</b> showing who solved it <b>fastest</b> (with their team colour) and how long it took. If someone beats that time later, the box updates.</li>
+                <li><b>The leaderboard</b>, which updates every couple of seconds. Rows slide up and down as places change. In self-paced mode it also shows which challenge each team is on.</li>
+            </ul>
+            <p>Teacher-paced: the current challenge's box is highlighted with its own timer. Click <b>Next challenge</b> to move everyone on. On the last challenge the button says <b>Finish</b>.</p>
+            <p>Students who join after START can still play. Without teams, their clock starts when they join. With teams, they go into the smallest team.</p>
+
+            <h3>Step 4: The end</h3>
+            <p>The CTF ends when you click <b>End CTF</b> (or <b>Finish</b>), or when the time limit runs out. The big screen shows a podium and the final leaderboard. Students see their place and the top 5.</p>
+            <p>Past Live CTFs are listed in the pink box on the class page. Click <b>Results</b> to show the results again, or <b>Delete</b> to remove one.</p>
+
+            <h3>What students see</h3>
+            <p>Students see a dark screen with their score, place, the overall timer, and a timer for the challenge they're on. The challenge appears in the middle with an answer box above it. When they (or a teammate) solve a challenge, a pop-up says "Good work, you completed the challenge!" with their points, their place, and how many points behind the next team they are.</p>
+        </section>
+
+        <section class="card" id="scoring">
+            <h2>9. How Live CTF scoring works</h2>
+            <p>Every challenge is timed <b>on its own</b>. The faster a student or team solves a challenge, the more points they get for it:</p>
+            <table>
+                <tr>
+                    <th>Time to solve</th>
+                    <th>Points</th>
+                </tr>
+                <tr><td>Straight away</td><td>1000</td></tr>
+                <tr><td>1 minute</td><td>833</td></tr>
+                <tr><td>2 minutes</td><td>750</td></tr>
+                <tr><td>5 minutes</td><td>643</td></tr>
+                <tr><td>10 minutes</td><td>583</td></tr>
+                <tr><td>Skipped</td><td>0</td></tr>
+            </table>
+            <p>Solving a challenge is always worth at least 500, so slower students still get plenty of points.</p>
+            <p>Because each challenge has its own clock, a slow start doesn't ruin the whole game. Being fast on the next challenge lets a team catch up.</p>
+            <ul>
+                <li><b>Self-paced:</b> a challenge's clock starts when the team finished (or skipped) the one before it. The first one starts at START.</li>
+                <li><b>Teacher-paced:</b> the clock starts when you show that challenge.</li>
+                <li><b>Teams:</b> anyone in the team can type the answer. The whole team moves on together and shares the points.</li>
+                <li><b>Ties:</b> if two teams have the same points, the one that got there first is ahead.</li>
+                <li>Answers aren't case sensitive, and spaces at the start and end are ignored.</li>
+            </ul>
+        </section>
+
+        <section class="card" id="admin">
+            <h2>10. Admin page (Ben and Grig)</h2>
+            <p>Admins see an <b>Admin</b> link at the top of the teacher page. Admins can also see every class on the teacher page by ticking <b>Show every class (admin)</b>.</p>
+            <h3>Teachers tab</h3>
+            <ul>
+                <li><b>Waiting for approval:</b> people who made a teacher account without an invite code. Click <b>Approve</b>, or <b>Reject and delete</b> if you don't know them.</li>
+                <li><b>Add a teacher:</b> type their name and click <b>Make invite code</b>. Give them the code. They go to the Teacher page, click <b>Create account</b>, and type the code. Each code works once. Cancel unused codes you don't need.</li>
+                <li><b>Make admin / Remove admin:</b> admins can use this page.</li>
+                <li><b>New password:</b> set a new password for a teacher who forgot theirs (8+ characters, not reused from anywhere else).</li>
+                <li><b>Block:</b> stops a teacher using the site until you approve them again. Their classes stay.</li>
+                <li><b>Delete:</b> deletes their login. Their classes stay, so give them to another teacher.</li>
+                <li>You can't change your own account here, so you can't lock yourself out by accident.</li>
+            </ul>
+            <h3>Lessons tab</h3>
+            <ul>
+                <li><b>Approve</b> lessons that teachers added. You can check the links and the flag first.</li>
+                <li><b>Delete</b> any lesson. This also unassigns it from every class. (The challenge page and its answer stay, so other lessons can still use it.)</li>
+            </ul>
+            <h3>Classes tab</h3>
+            <ul>
+                <li><b>Share a class</b> (for example with a substitute): pick a teacher next to the class and click <b>Add</b>. Both teachers can now manage it.</li>
+                <li><b>Hand a class over</b> (for example a teacher leaves): add the new teacher, then click &times; next to the old teacher.</li>
+                <li><b>Open</b> takes you to the class page, even if you don't teach it.</li>
+                <li><b>Delete</b> deletes the class, all its students' logins and its Live CTF results. You have to type DELETE to confirm.</li>
+            </ul>
+        </section>
+
+        <section class="card" id="problems">
+            <h2>11. Common problems</h2>
+            <dl>
+                <dt><b>A student says "Class code or name not found"</b></dt>
+                <dd>Check the join code, and check their name is spelt the same way as when they registered (look at the Students table). Maybe they haven't registered yet.</dd>
+                <dt><b>A student says "Someone with that name is already in this class"</b></dt>
+                <dd>They already registered. They should click <b>Log in</b> instead. If they forgot their password, give them a new one.</dd>
+                <dt><b>A student can't see a lesson</b></dt>
+                <dd>Check the day you assigned it. Lessons only show from that day (Sydney time).</dd>
+                <dt><b>Students can't see the Join the Live CTF button</b></dt>
+                <dd>Make sure they're logged in to the right class, and that you opened the lobby for that class. The button appears within about 5 seconds. Refreshing the page also works.</dd>
+                <dt><b>A student is in the wrong team</b></dt>
+                <dd>Use the menu next to their name on the big screen to move them.</dd>
+                <dt><b>I closed the big screen by accident</b></dt>
+                <dd>No problem, the game keeps going. Open the class and click <b>Open the big screen</b>.</dd>
+                <dt><b>The answer checker says "Log in first"</b></dt>
+                <dd>Challenge pages only check answers for people who are logged in (teachers or students).</dd>
+            </dl>
+        </section>
+    </main>
+</body>
+
+</html>
