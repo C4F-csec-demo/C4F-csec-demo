@@ -6,6 +6,21 @@ import { esc, tip } from './ui.js';
 // Admins can tick "show all classes" to see every class, not just their own.
 let showAllClasses = false;
 
+const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+// The time box gives us "16:00", which becomes "4:00pm"
+function formatTime(value) {
+    const parts = value.split(':');
+    const hour24 = Number(parts[0]);
+    const minutes = parts[1];
+    const suffix = hour24 < 12 ? 'am' : 'pm';
+    let hour12 = hour24 % 12;
+    if (hour12 === 0) {
+        hour12 = 12;
+    }
+    return hour12 + ':' + minutes + suffix;
+}
+
 function classTile(cls) {
     const teacherNames = cls.class_teachers
         .map(function (link) { return link.teachers ? link.teachers.name : 'a teacher'; })
@@ -35,9 +50,18 @@ export async function render(app, me, tabsHtml) {
             (showAllClasses ? ' checked' : '') + '> Show every class (admin)</label>';
     }
 
+    const dayOptions = '<option value="">Pick a day</option>' +
+        DAYS.map(function (day) { return '<option value="' + day + '">' + day + '</option>'; }).join('');
+
     app.innerHTML = tabsHtml +
         '<section class="card"><h2>Make a new class ' + tip('Each class gets a join code. Students type it on the student page to register into the class.') + '</h2>' +
-        '<form data-form="new-class" class="row"><input name="name" maxlength="80" placeholder="e.g. PLC Year 7 Tuesday" required><button>Create class</button></form></section>' +
+        '<form data-form="new-class" class="grid">' +
+        '<label>School<input name="school" maxlength="60" placeholder="PLC" required></label>' +
+        '<label>Day<select name="day" required>' + dayOptions + '</select></label>' +
+        '<label>Time<input name="time" type="time" required></label>' +
+        '<button>Create class</button></form>' +
+        '<p class="hint">The class will be named like "PLC, Tuesday 4:00pm". You can rename it later from the class page.</p>' +
+        '</section>' +
         '<div class="row space-between"><h2>' + (showAllClasses ? 'Every class' : 'My classes') + '</h2>' + adminToggle + '</div>' +
         (shown.length
             ? '<div class="tiles">' + shown.map(classTile).join('') + '</div>'
@@ -52,7 +76,9 @@ export const actions = {
 
 export const forms = {
     'new-class': async function (form) {
-        const newId = await callDb('create_class', { class_name: form.elements.name.value });
+        const f = form.elements;
+        const className = f.school.value.trim() + ', ' + f.day.value + ' ' + formatTime(f.time.value);
+        const newId = await callDb('create_class', { class_name: className });
         location.hash = 'class/' + newId;
         return false;
     }
