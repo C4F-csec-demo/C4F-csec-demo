@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live CTF Leaderboard</title>
+<link rel="stylesheet" href="board.css">
+</head>
+<body>
+
+<a class="backlink" href="index.html">&larr; all demos</a>
+
+<div class="screen">
+
+  <header class="head">
+    <div class="head-left">
+      <span class="live">LIVE CTF</span>
+      <h1>Cyber Challenge</h1>
+    </div>
+    <div class="head-right">
+      <span class="clock" id="clock">00:00</span>
+      <span class="solved" id="solved">0 solves</span>
+    </div>
+  </header>
+
+  <div class="columns">
+    <span class="col-rank">#</span>
+    <span class="col-name">PLAYER</span>
+    <span class="col-chal">CHALLENGES</span>
+    <span class="col-score">POINTS</span>
+  </div>
+
+  <div id="board" class="board"></div>
+
+  <footer class="ticker">
+    <span class="ticker-label">JUST NOW</span>
+    <div id="feed" class="feed"></div>
+  </footer>
+
+  <p class="demo-note">Demo board with made up players. Not real student data.</p>
+
+</div>
+
+<script src="board.js"></script>
+</body>
+</html>

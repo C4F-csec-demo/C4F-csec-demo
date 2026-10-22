@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Secrets hidden in a photo</title>
+<link rel="stylesheet" href="photo.css">
+</head>
+<body>
+
+<a class="backlink" href="index.html">&larr; all demos</a>
+
+<main class="wrap">
+
+  <header class="top">
+    <h1>What is your photo hiding?</h1>
+    <p class="sub">Drop in any photo. Everything happens on this laptop, nothing is uploaded.</p>
+  </header>
+
+  <section id="drop" class="drop">
+    <div class="drop-inner">
+      <div class="drop-icon">+</div>
+      <p class="drop-main">Drop a photo here</p>
+      <p class="drop-sub">or click to choose one</p>
+    </div>
+    <input id="file" class="file" type="file" accept="image/*">
+  </section>
+
+  <section id="samples" class="samples">
+    <p class="samples-title">No photo handy? Pick one of these.</p>
+    <div id="sample-tiles" class="sample-tiles"></div>
+  </section>
+
+  <section id="results" class="results hidden">
+    <div class="preview">
+      <img id="thumb" class="thumb" alt="the photo you chose">
+      <p id="filename" class="filename"></p>
+    </div>
+    <div class="findings">
+      <div id="verdict" class="verdict"></div>
+      <dl id="facts" class="facts"></dl>
+      <div id="mapwrap" class="mapwrap hidden">
+        <a id="maplink" class="maplink" href="#" target="_blank" rel="noopener">OPEN THIS SPOT IN A MAP</a>
+        <p class="mapnote">Needs internet. The coordinates above came out of the photo itself.</p>
+      </div>
+      <p id="lesson" class="lesson"></p>
+      <button id="again" class="again" type="button">TRY ANOTHER PHOTO</button>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p>Your photo never leaves this laptop. It is read in the browser and thrown away when you close the page.</p>
+  </footer>
+
+</main>
+
+<script src="samples.js"></script>
+<script src="photo.js"></script>
+</body>
+</html>

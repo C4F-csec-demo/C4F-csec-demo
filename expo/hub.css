@@ -1,0 +1,143 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #07070d;
+  color: #e8e8f0;
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  min-height: 100vh;
+  padding: 4vh 4vw;
+}
+
+.wrap {
+  margin: 0 auto;
+  max-width: 1400px;
+}
+
+.top {
+  text-align: center;
+}
+
+.kicker {
+  color: #ff2d78;
+  font-size: clamp(12px, 1.5vw, 18px);
+  letter-spacing: 5px;
+  text-transform: uppercase;
+}
+
+.top h1 {
+  color: #ffffff;
+  font-size: clamp(30px, 5vw, 64px);
+  letter-spacing: -1px;
+  line-height: 1.1;
+  margin-top: 12px;
+}
+
+.sub {
+  color: #7a7a9c;
+  font-size: clamp(14px, 1.8vw, 22px);
+  margin-top: 14px;
+}
+
+.grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  margin-top: 5vh;
+}
+
+.card {
+  background: #11111c;
+  border: 3px solid #22223a;
+  border-radius: 16px;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 26px 24px;
+  position: relative;
+  text-decoration: none;
+  transition: transform 0.12s ease, border-color 0.12s ease;
+}
+
+.card:hover {
+  border-color: #ff2d78;
+  transform: translateY(-4px);
+}
+
+.num {
+  color: #2e2e4d;
+  font-size: clamp(26px, 3.2vw, 40px);
+  font-weight: bold;
+  position: absolute;
+  right: 22px;
+  top: 16px;
+}
+
+.card h2 {
+  color: #ffffff;
+  font-size: clamp(19px, 2.1vw, 27px);
+  line-height: 1.25;
+  min-height: 2.5em;
+  padding-right: 58px;
+}
+
+.card p {
+  color: #9a9ab8;
+  font-size: clamp(14px, 1.6vw, 19px);
+  line-height: 1.5;
+  margin-top: 12px;
+  min-height: 4.5em;
+}
+
+.go {
+  background: #ff2d78;
+  border-radius: 8px;
+  color: #ffffff;
+  display: inline-block;
+  font-size: clamp(13px, 1.4vw, 17px);
+  font-weight: bold;
+  letter-spacing: 3px;
+  margin-right: auto;
+  margin-top: auto;
+  padding: 10px 22px;
+}
+
+.c2 .num { color: #3d2a16; }
+.c2:hover { border-color: #ffc24b; }
+.c2 .go { background: #ffc24b; color: #1a1205; }
+
+.c3 .num { color: #103a22; }
+.c3:hover { border-color: #35e07a; }
+.c3 .go { background: #35e07a; color: #04170c; }
+
+.c4 .num { color: #13304a; }
+.c4:hover { border-color: #4ab8ff; }
+.c4 .go { background: #4ab8ff; color: #031524; }
+
+.c6 {
+  opacity: 0.75;
+}
+
+.foot {
+  color: #44445e;
+  font-size: clamp(12px, 1.4vw, 16px);
+  margin-top: 6vh;
+  text-align: center;
+}
+
+.backlink {
+  color: #55557a;
+  font-size: clamp(13px, 1.5vw, 18px);
+  left: 18px;
+  position: fixed;
+  text-decoration: none;
+  top: 14px;
+  z-index: 50;
+}
+
+.backlink:hover {
+  color: #ff2d78;
+}

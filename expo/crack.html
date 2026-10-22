@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How fast can we crack your password?</title>
+<link rel="stylesheet" href="crack.css">
+</head>
+<body>
+
+<a class="backlink" href="index.html">&larr; all demos</a>
+
+<main class="wrap">
+
+  <header class="top">
+    <h1>How fast can we crack your password?</h1>
+    <p class="warn">Do not type a real password. Make one up.</p>
+  </header>
+
+  <form id="crack-form" class="entry" autocomplete="off">
+    <input id="pw" class="pw" type="text" placeholder="type a made up password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="40">
+    <button id="go" class="go" type="submit">CRACK IT</button>
+  </form>
+
+  <section id="stage" class="stage hidden">
+    <div id="candidates" class="candidates"></div>
+    <div class="counter">
+      <span id="count" class="count">0</span>
+      <span class="count-label">guesses</span>
+    </div>
+    <div class="bar"><div id="bar" class="bar-fill"></div></div>
+    <p id="rig" class="rig">a cracking rig is trying 100 billion passwords every second</p>
+  </section>
+
+  <section id="result" class="result hidden">
+    <div id="verdict" class="verdict"></div>
+    <div id="time" class="time"></div>
+    <div id="why" class="why"></div>
+    <button id="again" class="again" type="button">TRY ANOTHER</button>
+  </section>
+
+  <footer class="foot">
+    <p class="privacy">Nothing you type leaves this laptop. It is never saved or sent anywhere.</p>
+    <p class="brand">Code4Fun &middot; Cybersecurity &amp; Ethical Hacking</p>
+  </footer>
+
+</main>
+
+<script src="crack.js"></script>
+</body>
+</html>

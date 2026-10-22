@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mainframe Access Terminal</title>
+<link rel="stylesheet" href="movie.css">
+</head>
+<body>
+
+<a class="backlink" href="index.html">&larr; all demos</a>
+
+<div class="screen">
+
+  <div class="bar">
+    <span class="dot"></span>
+    <span class="bar-title">SECURE SHELL &middot; node-07 &middot; uplink active</span>
+    <span class="bar-right" id="clock"></span>
+  </div>
+
+  <pre id="out" class="out"></pre>
+
+  <div id="hint" class="hint">MASH THE KEYBOARD</div>
+
+  <div id="granted" class="granted hidden">
+    <div class="granted-box">ACCESS GRANTED</div>
+  </div>
+
+</div>
+
+<button id="truth-btn" class="truth-btn" type="button">WAS THAT REAL?</button>
+
+<div id="truth" class="truth hidden">
+  <div class="truth-box">
+    <h2>Nope. None of it.</h2>
+    <p>That screen was fake. Every key you pressed just pasted out text that was already sitting in the page. Nothing was scanned, nothing was broken into, nothing happened at all.</p>
+    <p>Movies love this look because real hacking is mostly reading, noticing, and trying things patiently. It is slower, but a lot more satisfying, and you can actually learn it.</p>
+    <p class="cta">Want to try the real version?</p>
+    <div class="truth-links">
+      <a class="tlink" href="crack.html">Crack a password</a>
+      <a class="tlink" href="deface.html">Hack a website</a>
+      <a class="tlink" href="photo.html">Find secrets in a photo</a>
+    </div>
+    <button id="truth-close" class="truth-close" type="button">BACK TO THE FAKE ONE</button>
+  </div>
+</div>
+
+<script src="movie.js"></script>
+</body>
+</html>
