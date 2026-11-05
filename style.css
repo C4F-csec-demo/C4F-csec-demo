@@ -1350,3 +1350,86 @@ nav.tabs .tab.on {
     border-color: transparent;
     border-bottom-color: var(--teal)
 }
+/* Curriculum: each lesson is its own block, because one lesson can have
+   several pages (student challenges plus teacher demos) */
+
+.lessons thead th {
+    color: #5a6485;
+    font-size: .82rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    border-bottom: 2px solid #e3e8f0
+}
+
+.lessons th:first-child,
+.lessons td:first-child {
+    border-left: 5px solid transparent
+}
+
+.lessons td {
+    border-bottom: 1px solid #eef1f6
+}
+
+.lessons .lesson-group td:first-child {
+    padding-left: 26px
+}
+
+.lessons .lesson-group .group-head td {
+    padding-left: 12px
+}
+
+.lessons .group-head td {
+    padding-top: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e3e8f0
+}
+
+.lessons .lesson-group + .lesson-group .group-head td {
+    border-top: 3px solid var(--bg)
+}
+
+.lessons .lesson-no {
+    font-weight: 800;
+    font-size: 1.05rem
+}
+
+.lessons .pages {
+    margin-left: 10px;
+    font-weight: 700;
+    font-size: .85rem;
+    color: #5a6485
+}
+
+/* Four colours, cycled, so two lessons next to each other never match */
+
+.lessons .lg-1 td:first-child {
+    border-left-color: var(--teal)
+}
+
+.lessons .lg-1 .group-head td {
+    background: #e7f7f6
+}
+
+.lessons .lg-2 td:first-child {
+    border-left-color: var(--pink)
+}
+
+.lessons .lg-2 .group-head td {
+    background: #fdeaf2
+}
+
+.lessons .lg-3 td:first-child {
+    border-left-color: #efa400
+}
+
+.lessons .lg-3 .group-head td {
+    background: #fff4d6
+}
+
+.lessons .lg-4 td:first-child {
+    border-left-color: #6f5cf0
+}
+
+.lessons .lg-4 .group-head td {
+    background: #eeebff
+}
