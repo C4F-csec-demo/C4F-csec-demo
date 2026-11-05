@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Loyalty Card</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" type="image/x-icon" href="../c4f-logo.png">
+    <style>
+        .card-face {
+            border: 3px dashed #cfd7e4;
+            border-radius: 14px;
+            padding: 18px;
+            text-align: center;
+            margin: 16px 0
+        }
+
+        .stamps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 14px 0
+        }
+
+        .stamp {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 3px solid #cfd7e4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: #cfd7e4
+        }
+
+        .stamp.filled {
+            background: var(--teal);
+            border-color: var(--teal);
+            color: #fff
+        }
+
+        .stamp-count {
+            font-weight: 800;
+            font-size: 1.1rem
+        }
+    </style>
+</head>
+
+<body data-challenge="loyalty">
+    <header>
+        <a href="../index.html"><img src="https://www.code4fun.com.au/app/uploads/2021/08/logo.svg" alt="Code4Fun"></a><span>Cybersecurity</span></header>
+    <main>
+        <section class="card">
+            <h1>Beanbag Juice Bar</h1>
+            <p>Buy ten smoothies, get one free. The juice bar does not keep your card behind the counter. It asks your browser to hold it for them.</p>
+            <p>Keep pressing the button and you will notice something: the card never quite fills up.</p>
+            <p class="hint">Mission: claim the free smoothie.</p>
+            <details>
+                <summary>Stuck? Read this</summary>
+                <p>Open DevTools, go to the <b>Application</b> tab, click <b>Cookies</b> on the left and then the name of this site. Your card is in there as a number.</p>
+                <p>Change it, then reload. The juice bar only reads your card when you walk in.</p>
+            </details>
+        </section>
+
+        <section class="card">
+            <div id="locked">
+                <div class="card-face">
+                    <p class="stamp-count"><span id="count">0</span> of 10 stamps</p>
+                    <div id="stamps" class="stamps"></div>
+                    <p id="card-note" class="hint"></p>
+                </div>
+                <button id="buy">Buy a smoothie</button>
+                <button id="claim" class="pink" hidden>Claim your free smoothie</button>
+            </div>
+
+            <div id="unlocked" hidden>
+                <h2>One free smoothie</h2>
+                <p>The girl behind the counter does not even look at the card properly. On the bottom of the cup:</p>
+                <p class="center"><span id="secret-word" class="code"></span></p>
+                <p class="hint">The juice bar let your own browser keep score, then believed the score.</p>
+            </div>
+        </section>
+
+        <form id="flag" class="card narrow"></form>
+    </main>
+    <script type="module" src="../js/loyalty.js"></script>
+    <script type="module" src="../js/challenge.js"></script>
+</body>
+
+</html>

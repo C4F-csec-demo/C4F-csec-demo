@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>The Canteen</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" type="image/x-icon" href="../c4f-logo.png">
+    <style>
+        .menu {
+            border: 2px solid #e3e8f0;
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin-bottom: 16px
+        }
+
+        .menu h3 {
+            margin-top: 0
+        }
+
+        .menu-line {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dotted #cfd7e4;
+            padding: 4px 0
+        }
+
+        .menu-line.picked {
+            font-weight: 800;
+            color: #0b7f7b
+        }
+
+        .order {
+            max-width: 420px
+        }
+
+        .closed-note {
+            background: #fff6d6;
+            border-left: 4px solid var(--yel);
+            padding: 10px 14px;
+            border-radius: 8px
+        }
+
+        .receipt {
+            font-family: monospace;
+            background: #eef1f6;
+            border-radius: 10px;
+            padding: 14px 18px;
+            margin-top: 14px
+        }
+    </style>
+</head>
+
+<body data-challenge="canteen">
+    <header>
+        <a href="../index.html"><img src="https://www.code4fun.com.au/app/uploads/2021/08/logo.svg" alt="Code4Fun"></a><span>Cybersecurity</span></header>
+    <main>
+        <section class="card">
+            <h1>The Canteen</h1>
+            <p>Hillview High put their canteen orders online over the holidays. The ordering button is switched off until Monday, and the price of your order is worked out before you ever press it.</p>
+            <p>Both of those things happen on your laptop.</p>
+            <p class="hint">Mission: the canteen will hand over a word if it ever ends up owing you money. Work out how to make that happen.</p>
+            <details>
+                <summary>Stuck? Read this</summary>
+                <p>Right click the Place order button and choose Inspect. There is a word in there stopping you clicking it, and a box just above that the canteen is using to remember what you owe.</p>
+                <p>Then think about what a price is allowed to be, and what the canteen never bothered to check.</p>
+            </details>
+        </section>
+
+        <section class="card">
+            <div class="menu">
+                <h3>Today's menu</h3>
+                <div class="menu-line picked"><span>Chicken wrap</span><span>$5.50</span></div>
+                <div class="menu-line"><span>Sushi pack</span><span>$4.00</span></div>
+                <div class="menu-line"><span>Banana bread</span><span>$2.50</span></div>
+            </div>
+
+            <div id="locked">
+                <p class="closed-note">Orders are closed. The button opens again on Monday.</p>
+                <form id="order" class="order">
+                    <input type="hidden" name="price" value="5.50">
+                    <label>Your name<input name="name" autocomplete="off" placeholder="e.g. Sam"></label>
+                    <p><b>Chicken wrap</b> &times; 1</p>
+                    <button id="order-button" disabled>Place order</button>
+                    <p id="order-msg" class="msg"></p>
+                </form>
+                <div id="receipt" class="receipt" hidden></div>
+            </div>
+
+            <div id="unlocked" hidden>
+                <h2>The canteen owes you money</h2>
+                <p>The till has printed an apology and a word:</p>
+                <p class="center"><span id="secret-word" class="code"></span></p>
+                <p class="hint">Nobody at the canteen agreed to pay you. The page just never checked that a price has to be a real, positive amount.</p>
+            </div>
+        </section>
+
+        <form id="flag" class="card narrow"></form>
+    </main>
+    <script type="module" src="../js/canteen.js"></script>
+    <script type="module" src="../js/challenge.js"></script>
+</body>
+
+</html>

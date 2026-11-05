@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Remember Me</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" type="image/x-icon" href="../c4f-logo.png">
+    <style>
+        .band {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: #eef1f6;
+            border: 2px dashed #cfd7e4;
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin: 16px 0
+        }
+
+        .band-label {
+            font-weight: 800
+        }
+
+        .band-value {
+            font-family: monospace;
+            font-size: 1.2rem;
+            font-weight: 800;
+            background: var(--yel);
+            padding: 2px 10px;
+            border-radius: 8px
+        }
+
+        .no-cookies {
+            background: #fff6d6;
+            border-left: 4px solid var(--yel);
+            padding: 10px 14px;
+            border-radius: 8px
+        }
+    </style>
+</head>
+
+<body data-challenge="members">
+    <header>
+        <a href="../index.html"><img src="https://www.code4fun.com.au/app/uploads/2021/08/logo.svg" alt="Code4Fun"></a><span>Cybersecurity</span></header>
+    <main>
+        <section class="card">
+            <h1>Remember Me</h1>
+            <p>Websites are forgetful. Every time you click something, the site has basically never met you before. So when you arrive, it hands you a wristband and asks you to hold onto it.</p>
+            <p>This water park checked your wristband and decided you are not a member. Your wristband is in your pocket, not theirs.</p>
+            <p class="hint">Mission: get in. You are not changing anything on their computer, only what is written on your own wristband.</p>
+            <details>
+                <summary>Stuck? Read this</summary>
+                <p>Open DevTools and find the <b>Application</b> tab (you may need the <code>&raquo;</code> arrow to see it). Click <b>Cookies</b> on the left, then the name of this site. Double click a value to change it.</p>
+                <p>One more thing: changing it does nothing on its own. The water park only looks at your wristband when you walk in, so you have to reload the page.</p>
+            </details>
+        </section>
+
+        <section class="card">
+            <div class="band">
+                <span class="band-label">Your wristband says:</span>
+                <span id="band-value" class="band-value">...</span>
+            </div>
+
+            <div id="locked">
+                <h2>Members only. Sorry!</h2>
+                <p>The security guard looked at your wristband, shook his head, and went back to his phone.</p>
+            </div>
+
+            <div id="unlocked" hidden>
+                <h2>Welcome back, member</h2>
+                <p>Nobody even looked up. The word on the members' board is:</p>
+                <p class="center"><span id="secret-word" class="code"></span></p>
+                <p class="hint">The water park never checked whether that wristband was really theirs. That is why real websites sign yours, so a changed one gets thrown out at the door.</p>
+            </div>
+
+            <p id="cookie-warning" class="no-cookies" hidden>This page cannot save a cookie in your browser, so the challenge will not work. Ask your teacher. (It usually means the page was opened from a file instead of from the website, or cookies are switched off.)</p>
+        </section>
+
+        <form id="flag" class="card narrow"></form>
+    </main>
+    <script type="module" src="../js/members.js"></script>
+    <script type="module" src="../js/challenge.js"></script>
+</body>
+
+</html>

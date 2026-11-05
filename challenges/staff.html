@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Staff Only</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" type="image/x-icon" href="../c4f-logo.png">
+    <style>
+        .signin {
+            max-width: 420px
+        }
+
+        .signin-note {
+            background: #fde0ec;
+            border-left: 4px solid var(--pink);
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-weight: 700
+        }
+
+        .who {
+            font-family: monospace;
+            color: #5a6485;
+            font-size: .95rem;
+            margin-top: 10px
+        }
+    </style>
+</head>
+
+<body data-challenge="staff">
+    <header>
+        <a href="../index.html"><img src="https://www.code4fun.com.au/app/uploads/2021/08/logo.svg" alt="Code4Fun"></a><span>Cybersecurity</span></header>
+    <main>
+        <section class="card">
+            <h1>Staff Only</h1>
+            <p>Hillview High built a staff sign-in page. They were in a hurry, so they did the easy thing: they greyed out the button for students and put a little label in the form saying who you are.</p>
+            <p>Both of those decisions were made in your browser, on your laptop.</p>
+            <p class="hint">Mission: sign in as a staff member. You will need to fix two things, not one.</p>
+            <details>
+                <summary>Stuck? Read this</summary>
+                <p>Right click the Submit button and choose Inspect. Look at the button's code for a word that stops you clicking it. Then scroll up a few lines inside the same form. There is a box in there that is not drawn on your screen, and it is telling the page who you are.</p>
+            </details>
+        </section>
+
+        <section class="card">
+            <div id="locked">
+                <h2>Hillview High staff sign-in</h2>
+                <p class="signin-note">Staff only. Students cannot use this form.</p>
+                <form id="signin" class="signin">
+                    <input type="hidden" name="role" value="student">
+                    <label>Your name<input name="name" autocomplete="off" placeholder="e.g. Ms Patel"></label>
+                    <button id="signin-button" disabled>Submit</button>
+                    <p id="form-msg" class="msg"></p>
+                </form>
+                <p class="who">This form thinks you are a student.</p>
+            </div>
+
+            <div id="unlocked" hidden>
+                <h2>Welcome to the staff room</h2>
+                <p>The form let you in and the noticeboard on the wall says:</p>
+                <p class="center"><span id="secret-word" class="code"></span></p>
+                <p class="hint">Nothing about you changed. You just edited the note the page was carrying about you before it got read.</p>
+            </div>
+        </section>
+
+        <form id="flag" class="card narrow"></form>
+    </main>
+    <script type="module" src="../js/staff.js"></script>
+    <script type="module" src="../js/challenge.js"></script>
+</body>
+
+</html>

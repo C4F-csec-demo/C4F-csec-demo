@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>The Locker Room</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" type="image/x-icon" href="../c4f-logo.png">
+    <style>
+        .locker {
+            text-align: center;
+            border: 3px solid #cfd7e4;
+            border-radius: 14px;
+            padding: 22px;
+            margin: 16px 0
+        }
+
+        .locker.staff {
+            border-color: var(--pink);
+            background: #fff0f6
+        }
+
+        .locker-number {
+            font: 800 1.1rem monospace;
+            letter-spacing: .15em;
+            color: #5a6485
+        }
+
+        .locker-item {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin: 10px 0 0
+        }
+
+        .locker-owner {
+            color: #5a6485;
+            margin: 4px 0 0
+        }
+
+        .pick-locker {
+            max-width: 220px
+        }
+    </style>
+</head>
+
+<body data-challenge="locker">
+    <header>
+        <a href="../index.html"><img src="https://www.code4fun.com.au/app/uploads/2021/08/logo.svg" alt="Code4Fun"></a><span>Cybersecurity</span></header>
+    <main>
+        <section class="card">
+            <h1>The Locker Room</h1>
+            <p>Hillview High put their lost property list online. Every locker has a number, and the number is in the web address.</p>
+            <p>The school has lockers 1 to 20. The box below only lets you pick one of those.</p>
+            <p class="hint">Mission: the school is not telling the truth about which lockers exist. Find one that is not on the list.</p>
+            <details>
+                <summary>Stuck? Read this</summary>
+                <p>The dropdown is not what decides which locker you see. The web address is. The dropdown just changes the address for you.</p>
+                <p>Try typing a number into the address bar yourself. A big one.</p>
+            </details>
+        </section>
+
+        <section class="card">
+            <label class="pick-locker">Pick a locker
+                <select id="pick">
+                    <option value="">Choose a number</option>
+                </select>
+            </label>
+
+            <div id="locker" class="locker">
+                <p class="locker-number">LOCKER ...</p>
+            </div>
+
+            <div id="unlocked" hidden>
+                <p>That locker is not on the school's list, and nobody ever checked whether you were allowed to look in it. Written on the inside of the door:</p>
+                <p class="center"><span id="secret-word" class="code"></span></p>
+                <p class="hint">The page was never guarding anything. It just handed over whatever number you asked for.</p>
+            </div>
+        </section>
+
+        <form id="flag" class="card narrow"></form>
+    </main>
+    <script type="module" src="../js/locker.js"></script>
+    <script type="module" src="../js/challenge.js"></script>
+</body>
+
+</html>

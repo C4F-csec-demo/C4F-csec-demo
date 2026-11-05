@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Open Sesame</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" type="image/x-icon" href="../c4f-logo.png">
+    <style>
+        .door {
+            text-align: center;
+            padding: 24px 0
+        }
+
+        .door-emoji {
+            font-size: 5rem;
+            line-height: 1
+        }
+
+        .door-status {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin: 8px 0 0
+        }
+
+        .door-status.shut {
+            color: #d0213f
+        }
+
+        .door-status.open {
+            color: #0a8a5a
+        }
+
+        .url-demo {
+            font-family: monospace;
+            font-size: 1.05rem;
+            word-break: break-all
+        }
+
+        .url-demo b {
+            background: var(--yel);
+            padding: 1px 4px;
+            border-radius: 4px
+        }
+    </style>
+</head>
+
+<body data-challenge="door">
+    <header>
+        <a href="../index.html"><img src="https://www.code4fun.com.au/app/uploads/2021/08/logo.svg" alt="Code4Fun"></a><span>Cybersecurity</span></header>
+    <main>
+        <section class="card">
+            <h1>Open Sesame</h1>
+            <p>This is the front door of a very badly built website. The door is shut, and there is no key anywhere on the page.</p>
+            <p>There is no login, no password and no button. The only thing the door looks at is the web address you used to ask for it.</p>
+            <p class="hint">Mission: get through the door.</p>
+            <details>
+                <summary>Stuck? Read this</summary>
+                <p>Look at the whole address at the top of your browser, not just the start. Find the part after the <code>?</code> question mark. That part is an instruction, and you are the one who gets to type it.</p>
+            </details>
+        </section>
+
+        <section class="card">
+            <div class="door">
+                <div id="door-emoji" class="door-emoji">&#128682;</div>
+                <p id="door-status" class="door-status shut">Loading...</p>
+            </div>
+
+            <div id="locked">
+                <p>The door checked your web address and decided you are not getting in.</p>
+                <p class="url-demo">You asked for: /challenges/door.html?key=<b id="key-shown">closed</b></p>
+            </div>
+
+            <div id="unlocked" hidden>
+                <p>The door swings open. Taped to the inside is a word:</p>
+                <p class="center"><span id="secret-word" class="code"></span></p>
+                <p class="hint">You did not break in. You asked politely, in a way the website was never fussy enough to check.</p>
+            </div>
+        </section>
+
+        <form id="flag" class="card narrow"></form>
+    </main>
+    <script type="module" src="../js/door.js"></script>
+    <script type="module" src="../js/challenge.js"></script>
+</body>
+
+</html>
